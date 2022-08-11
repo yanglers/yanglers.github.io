@@ -1,2 +1,2 @@
 # yanglers.dev
-Hi! Austin's personal website
+Austin's personal website
