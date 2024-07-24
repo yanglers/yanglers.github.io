@@ -1,2 +1,1 @@
-# yanglers.github.io
-Hi! I'm Austin
+# Austin Yang's Personal Website
