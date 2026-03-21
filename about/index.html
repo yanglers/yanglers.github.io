@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Your Name</title>
+  <title>Austin Yang</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
-  <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/theme.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Load theme before paint to avoid flash -->
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
   <header class="site-header">
-    <h1><a href="/">Austin Yizhi Yang</a></h1>
+    <h1><a href="/">Austin Yang's Website</a></h1>
     <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
   </header>
 
@@ -29,32 +30,38 @@
   </nav>
 
   <main>
-    <h1>Hi!</h1>
+    <p>Hi!</p>
 
     <p>
-      I'm Austin. 
+      I am a BS/MS student at <a href="https://stanford.edu">Stanford University</a>,
+      broadly studying Applied Mathematics and Biomedical Data Science.
+      I currently work at <a href="https://www.f-prime.com">F-Prime</a>,
+      helping with investment decisions and building tools that help us make better ones.
     </p>
 
-    <p>
-      Before Stanford, I [previous experience — school, job, project].
-      I'm interested in [interests] and believe [a perspective you hold about your field].
-    </p>
-
-    <h2>Links</h2>
-    <ul>
-      <li><a href="https://github.com/yourusername">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/yourusername">LinkedIn</a></li>
-      <li><a href="mailto:you@example.com">Email</a></li>
-      <li><a href="/resume.pdf">CV / Resume (PDF)</a></li>
+    <h2>Recent Posts</h2>
+    <ul class="post-list">
+      <li>
+        <span class="post-date">2025-03-15</span>
+        <a href="/blog/post-title/">Your most recent post title here</a>
+      </li>
+      <li>
+        <span class="post-date">2025-02-28</span>
+        <a href="/blog/another-post/">Another interesting post you wrote</a>
+      </li>
+      <li>
+        <span class="post-date">2025-01-10</span>
+        <a href="/blog/third-post/">A third post with a compelling title</a>
+      </li>
     </ul>
-
   </main>
 
   <footer>
     <a href="/about/">About</a>
     <a href="https://github.com/yanglers">GitHub</a>
-    <a href="https://www.linkedin.com/in/yanglers/">LinkedIn</a>
-    <a href="ayiyang@stanford.edu">Email</a>
+    <a href="https://linkedin.com/in/austinyang">LinkedIn</a>
+    <a href="mailto:you@stanford.edu">Email</a>
+    <a href="/blog/feed.xml">RSS</a>
   </footer>
 
 </body>
