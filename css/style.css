@@ -211,3 +211,9 @@ blockquote {
     grid-template-columns: 1fr;
   }
 }
+
+.pfp {
+  width: 30px !important;
+  height: 30px !important;
+  object-fit: cover;
+}
