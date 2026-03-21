@@ -38,11 +38,14 @@ html[data-theme="dark"] {
 }
 
 /* Apply theme to body */
-body {
+html {
   background-color: var(--background-color);
-  color: var(--font-color);
 }
 
+body {
+  color: var(--font-color);
+  background-color: transparent;
+}
 /* Apply font everywhere */
 body, input, button, select, textarea, pre, code {
   font-family: var(--font-stack);
