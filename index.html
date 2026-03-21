@@ -61,7 +61,7 @@
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.z = 2.8;
 
-    const geo = new THREE.SphereGeometry(1, 32, 32);
+    const geo = new THREE.SphereGeometry(0.7, 32, 32);
     const wire = new THREE.WireframeGeometry(geo);
     const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.10 });
     const globe = new THREE.LineSegments(wire, mat);
