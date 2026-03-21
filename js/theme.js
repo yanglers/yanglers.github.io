@@ -1,8 +1,6 @@
-// Dark mode toggle — persists across pages
+// Dark mode toggle — applies immediately to avoid flash, then wires up button
 (function () {
   const STORAGE_KEY = "theme";
-  const btn = document.getElementById("dark-mode-toggle");
-  const root = document.documentElement;
 
   function getTheme() {
     return localStorage.getItem(STORAGE_KEY) ||
@@ -10,16 +8,23 @@
   }
 
   function applyTheme(theme) {
-    root.setAttribute("data-theme", theme);
-    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(STORAGE_KEY, theme);
+    var btn = document.getElementById("dark-mode-toggle");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
   }
 
+  // Apply immediately (before paint) to avoid flash
   applyTheme(getTheme());
 
-  if (btn) {
-    btn.addEventListener("click", function () {
-      applyTheme(getTheme() === "dark" ? "light" : "dark");
-    });
-  }
+  // Wire up button once DOM is ready
+  document.addEventListener("DOMContentLoaded", function () {
+    applyTheme(getTheme()); // re-apply so button emoji is set
+    var btn = document.getElementById("dark-mode-toggle");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        applyTheme(getTheme() === "dark" ? "light" : "dark");
+      });
+    }
+  });
 })();
