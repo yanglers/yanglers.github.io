@@ -63,7 +63,7 @@
 
     const geo = new THREE.SphereGeometry(1, 32, 32);
     const wire = new THREE.WireframeGeometry(geo);
-    const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.18 });
+    const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.10 });
     const globe = new THREE.LineSegments(wire, mat);
     globe.rotation.x = 0.3;
     globe.position.y = -0.5;
