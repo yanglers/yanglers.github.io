@@ -213,7 +213,7 @@ blockquote {
 }
 
 .pfp {
-  width: 30px !important;
-  height: 30px !important;
+  width: 100px !important;
+  height: 100px !important;
   object-fit: cover;
 }
