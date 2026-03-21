@@ -34,7 +34,7 @@
     </p>
 
     <p>
-      Previously, I did Research Engineering stints at <a href="https://www.amgen.com">Amgen</a> and <a href="https://www.modernatx.com">Moderna</a>, where I worked on ML applications in R&D, and wet lab automation. I deeply enjoyed both experiences.
+      Previously, I did Research Engineering stints at <a href="https://www.amgen.com">Amgen</a> and <a href="https://www.modernatx.com">Moderna</a>, where I worked on ML applications in R&D and wet lab automation. I deeply enjoyed both experiences.
       I also had a stint as a summer associate at a consulting firm (which I enjoyed significantly less), where I worked on biopharma pricing. 
     </p>
 
@@ -48,5 +48,37 @@
     <a href="mailto:ayiyang@stanford.edu">Email</a>
   </footer>
 
+  <canvas id="globe-bg"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const canvas = document.getElementById('globe-bg');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 2.8;
+
+    const geo = new THREE.SphereGeometry(1, 32, 32);
+    const wire = new THREE.WireframeGeometry(geo);
+    const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.18 });
+    const globe = new THREE.LineSegments(wire, mat);
+    globe.rotation.x = 0.3;
+    scene.add(globe);
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    (function animate() {
+      requestAnimationFrame(animate);
+      globe.rotation.y += 0.002;
+      renderer.render(scene, camera);
+    })();
+  </script>
 </body>
 </html>
