@@ -66,6 +66,7 @@
     const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.18 });
     const globe = new THREE.LineSegments(wire, mat);
     globe.rotation.x = 0.3;
+    globe.position.y = -1.0;
     scene.add(globe);
 
     window.addEventListener('resize', () => {
