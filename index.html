@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yanglers</title>
+  <title>yanglers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
     // Faint sphere outline
     const sphereGeo = new THREE.SphereGeometry(R, 32, 32);
     const sphereWire = new THREE.WireframeGeometry(sphereGeo);
-    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.04 });
+    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.06 });
     globe.add(new THREE.LineSegments(sphereWire, sphereMat));
 
     function latLonToVec3(lat, lon) {
@@ -85,7 +85,7 @@
     }
 
     function drawLines(coords) {
-      const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.10 });
+      const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.16 });
       const points = coords.map(([lon, lat]) => latLonToVec3(lat, lon));
       const geo = new THREE.BufferGeometry().setFromPoints(points);
       globe.add(new THREE.Line(geo, mat));
