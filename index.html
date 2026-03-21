@@ -71,7 +71,7 @@
     // Faint sphere outline
     const sphereGeo = new THREE.SphereGeometry(R, 32, 32);
     const sphereWire = new THREE.WireframeGeometry(sphereGeo);
-    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.02 });
+    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.04 });
     globe.add(new THREE.LineSegments(sphereWire, sphereMat));
 
     function latLonToVec3(lat, lon) {
