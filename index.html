@@ -50,6 +50,7 @@
 
   <canvas id="globe-bg"></canvas>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <script>
     const canvas = document.getElementById('globe-bg');
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -61,13 +62,49 @@
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.z = 2.8;
 
-    const geo = new THREE.SphereGeometry(0.7, 32, 32);
-    const wire = new THREE.WireframeGeometry(geo);
-    const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.10 });
-    const globe = new THREE.LineSegments(wire, mat);
+    const R = 0.7;
+    const globe = new THREE.Group();
     globe.rotation.x = 0.3;
     globe.position.y = -0.5;
     scene.add(globe);
+
+    // Faint sphere outline
+    const sphereGeo = new THREE.SphereGeometry(R, 32, 32);
+    const sphereWire = new THREE.WireframeGeometry(sphereGeo);
+    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.06 });
+    globe.add(new THREE.LineSegments(sphereWire, sphereMat));
+
+    function latLonToVec3(lat, lon) {
+      const phi = (90 - lat) * Math.PI / 180;
+      const theta = (lon + 180) * Math.PI / 180;
+      return new THREE.Vector3(
+        -R * Math.sin(phi) * Math.cos(theta),
+        R * Math.cos(phi),
+        R * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    function drawLines(coords) {
+      const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.35 });
+      const points = coords.map(([lon, lat]) => latLonToVec3(lat, lon));
+      const geo = new THREE.BufferGeometry().setFromPoints(points);
+      globe.add(new THREE.Line(geo, mat));
+    }
+
+    function processGeometry(geometry) {
+      if (geometry.type === 'Polygon') {
+        geometry.coordinates.forEach(drawLines);
+      } else if (geometry.type === 'MultiPolygon') {
+        geometry.coordinates.forEach(poly => poly.forEach(drawLines));
+      }
+    }
+
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(r => r.json())
+      .then(world => {
+        const countries = topojson.feature(world, world.objects.countries);
+        countries.features.forEach(f => processGeometry(f.geometry));
+      });
 
     window.addEventListener('resize', () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
