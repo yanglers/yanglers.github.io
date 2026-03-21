@@ -77,7 +77,6 @@ nav ul {
 
 nav ul li a {
   text-decoration: none;
-  color: var(--font-color);
 }
 
 nav ul li a:hover {
@@ -97,11 +96,6 @@ nav ul li a:hover {
 .site-header h1 {
   font-size: 1.1rem;
   margin: 0;
-}
-
-.site-header h1 a {
-  text-decoration: none;
-  color: var(--font-color);
 }
 
 /* ── Dark mode toggle ── */
@@ -205,10 +199,6 @@ blockquote {
   opacity: 0.85;
 }
 
-/* ── Links ── */
-a {
-  color: var(--font-color);
-}
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
