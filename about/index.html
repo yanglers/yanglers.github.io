@@ -13,40 +13,6 @@
 </head>
 
 <body>
-
-  <div id="cursor" style="position:fixed;width:10px;height:1.2em;background:currentColor;opacity:0.7;pointer-events:none;z-index:9999;animation:blink 1s step-end infinite;"></div>
-  <style>
-    @keyframes blink { 0%,100%{opacity:0.7} 50%{opacity:0} }
-  </style>
-  <script>
-    document.addEventListener('mousemove', e => {
-      const c = document.getElementById('cursor');
-      c.style.left = e.clientX + 'px';
-      c.style.top = e.clientY + 'px';
-    });
-  </script>
-
-  <script>
-    document.querySelectorAll('nav a').forEach(a => {
-      if (a.getAttribute('href') === window.location.pathname ||
-          a.getAttribute('href') === window.location.pathname + '/') {
-        a.classList.add('active');
-      }
-    });
-  </script>
-
-  <header class="site-header">
-    <h1><a href="/">Austin Yang</a></h1>
-    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about/">About</a></li>
-    </ul>
-  </nav>
-
   <main>
     <div style="text-align: center; margin-bottom: 1.5rem;">
       <img src="/assets/stream_of_consiousness.jpg" alt="Austin Yang" class="pfp">
@@ -229,5 +195,38 @@
 
     draw();
   </script>
+
+  <div id="cursor" style="position:fixed;width:10px;height:1.2em;background:currentColor;opacity:0.7;pointer-events:none;z-index:9999;animation:blink 1s step-end infinite;"></div>
+  <style>
+    @keyframes blink { 0%,100%{opacity:0.7} 50%{opacity:0} }
+  </style>
+  <script>
+    document.addEventListener('mousemove', e => {
+      const c = document.getElementById('cursor');
+      c.style.left = e.clientX + 'px';
+      c.style.top = e.clientY + 'px';
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </nav>
 </body>
 </html>
