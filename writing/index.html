@@ -289,7 +289,7 @@
 
     function draw() {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const color = isDark ? '232,232,232' : '0,118,255';
+        const color = '0,118,255';
         const cx = cv.width / 2, cy = cv.height / 2;
         const scale = Math.min(cv.width, cv.height) * 0.14;
 
@@ -310,7 +310,7 @@
         const qx = bx*ca - bz*sa, qy = by;
         const sx = cx + px*scale, sy = cy - py*scale + scale*-0.3;
         const ex = cx + qx*scale, ey = cy - qy*scale + scale*-0.3;
-        const alpha = (i/MAX) * 0.22;
+        const alpha = (i/MAX) * 0.12;
         ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
         ctx.strokeStyle = `rgba(${color},${alpha})`;
         ctx.lineWidth = 0.9;
