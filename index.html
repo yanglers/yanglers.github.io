@@ -25,6 +25,15 @@
   });
 </script>
 
+<script>
+  document.querySelectorAll('nav a').forEach(a => {
+    if (a.getAttribute('href') === window.location.pathname ||
+        a.getAttribute('href') === window.location.pathname + '/') {
+      a.classList.add('active');
+    }
+  });
+</script>
+
 <body>
 
   <header class="site-header">

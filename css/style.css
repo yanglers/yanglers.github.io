@@ -255,3 +255,15 @@ html::-webkit-scrollbar {
 body {
   cursor: none;
 }
+
+nav ul li a.active::before {
+  content: '▋';
+  margin-right: 4px;
+  color: #0076ff;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
