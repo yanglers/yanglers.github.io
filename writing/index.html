@@ -310,7 +310,7 @@
         const qx = bx*ca - bz*sa, qy = by;
         const sx = cx + px*scale, sy = cy - py*scale + scale*-0.3;
         const ex = cx + qx*scale, ey = cy - qy*scale + scale*-0.3;
-        const alpha = (i/MAX) * 0.12;
+        const alpha = (i/MAX) * 0.22;
         ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
         ctx.strokeStyle = `rgba(${color},${alpha})`;
         ctx.lineWidth = 0.9;
