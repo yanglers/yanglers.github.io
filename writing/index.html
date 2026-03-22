@@ -308,8 +308,8 @@
         const [ax,ay,az] = trail[i-1], [bx,by,bz] = trail[i];
         const px = ax*ca - az*sa, py = ay;
         const qx = bx*ca - bz*sa, qy = by;
-        const sx = cx + px*scale, sy = cy - py*scale + scale*0.4;
-        const ex = cx + qx*scale, ey = cy - qy*scale + scale*0.4;
+        const sx = cx + px*scale, sy = cy - py*scale + scale*-0.3;
+        const ex = cx + qx*scale, ey = cy - qy*scale + scale*-0.3;
         const alpha = (i/MAX) * 0.22;
         ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
         ctx.strokeStyle = `rgba(${color},${alpha})`;
