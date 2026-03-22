@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Fair Coin and Conservativeness — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .math-block {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 2px solid var(--secondary-color);
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+
+    .math-block .label {
+      font-size: 0.75rem;
+      opacity: 0.5;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2025 · essay</p>
+    <h1>A Fair Coin and Conservativeness</h1>
+
+    <p>
+      Hartry Field's nominalism rests on a bet: that mathematics is a tool, not a discovery.
+      When we add math to a theory about the physical world, we should not end up saying anything
+      new about that world. The theory should be the same theory, just more conveniently expressed.
+      Field calls this <em>conservativeness</em> — and it is the heart of what makes his project attractive.
+      If math is genuinely conservative, then the philosopher who wants to avoid mysterious abstract
+      objects gets to keep everything science actually needs, at no extra ontological cost.
+    </p>
+
+    <p>
+      Probability is a good place to stress-test this bet. In science, probability does not merely
+      list possible outcomes. It tells us what to expect, what counts as a surprise, and when a result
+      calls for an explanation. A coin that lands heads forty times in a row demands a story. A coin
+      that lands heads roughly half the time does not. The mathematics of probability seems to be doing
+      real work here — not just representing something we already knew, but actually sorting outcomes
+      into the expected and the exceptional. If that sorting is genuinely mathematical, Field has a problem.
+    </p>
+
+    <p>
+      The fair coin is a useful test case precisely because "fair" is meant to rule out any underlying bias.
+      A fair coin, by definition, gives heads and tails equal standing. Nothing in the physical setup
+      privileges one over the other. So if probability theory ends up telling us something about what
+      a fair coin is likely to do, we might wonder whether that is really just math talking — or whether
+      the math is, in some sense, reaching into the world.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Field's requirement is precise. Take a non-mathematical theory <em>N</em> — a description of the
+      physical world stated entirely without reference to numbers, sets, or functions. Add a mathematical
+      theory <em>M</em> — say, standard probability theory. Conservativeness says: any purely physical
+      conclusion you can derive from <em>N + M</em> together, you could already derive from <em>N</em>
+      alone. Math should not smuggle in new facts about coins, planets, or people.
+    </p>
+
+    <p>
+      The fair-coin setup, stated carefully, does not actually violate this. Here is why.
+    </p>
+
+    <p>
+      Suppose we have a physical description of a coin-flipping device — call it <em>N</em><sub>dyn</sub>.
+      It says what the coin is made of, how it is flipped, what forces act on it. Now we add a probability
+      model that assigns a half-half distribution to each toss, independently. From this, we can derive
+      something like a concentration bound: for large <em>n</em>, the probability that the frequency of
+      heads stays close to one-half is very high. More precisely, for any tolerance ε > 0:
+    </p>
+
+    <div class="math-block">
+      <div class="label">concentration bound</div>
+      P(|S<sub>n</sub>/n − 1/2| &lt; ε) ≥ 1 − δ
+    </div>
+
+    <p>
+      where δ shrinks as <em>n</em> grows. This is a theorem. But notice what it says: it says something
+      about a <em>measure</em> on sequences of outcomes. It says a certain set of histories has high
+      probability. It does not say that any particular run of this coin will stay near balance.
+      To get from "this set has measure close to one" to "a normal run of this coin will land near
+      balance," we need something more — a bridge that connects high probability to ordinary claims
+      about what actually happens.
+    </p>
+
+    <p>
+      That bridge is not mathematics. It is an additional assumption: that high-probability events
+      are what we should expect to see, or that they characterize what counts as a normal run.
+      Without that assumption, the probability theorem floats free of any particular prediction.
+      And that assumption — call it something like "high probability licenses expectation" — is
+      not part of the mathematical theory itself. It is a linking principle that has to be added
+      by hand.
+    </p>
+
+    <p>
+      This is why conservativeness survives. The probability theory, taken on its own, does not entail
+      any new non-mathematical claim about what the coin will do. To get a claim about the coin, you
+      need extra resources that are not mathematical in Field's sense. No purely physical conclusion
+      follows from <em>N</em><sub>dyn</sub> + probability theory that could not already follow from
+      <em>N</em><sub>dyn</sub> plus those extra resources alone.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      So conservativeness is safe. The harder question is whether Field can still say, with a straight
+      face, that mathematics is <em>only</em> a representational tool here — that it contributes
+      nothing of its own to the structure of probabilistic science.
+    </p>
+
+    <p>
+      The trouble is that the bridge has to come from somewhere. If we want to say that a normal run
+      of a fair coin will land near balance, we need a way of sorting the physically possible histories
+      into the normal and the abnormal. Either we treat this as an epistemic norm — a rule about how
+      to form credences — or we build it into the physical description itself, by adding something like
+      a typicality predicate or a chance structure to the non-mathematical base.
+    </p>
+
+    <p>
+      Both routes work, in the sense that they preserve conservativeness. But both routes require
+      the Field-style nominalist to supply, as part of the non-mathematical base, a substantive
+      sorting of possibilities. And in a fair, symmetric case, that sorting is not free.
+    </p>
+
+    <p>
+      Here is the problem with symmetry. Suppose the coin-flipping device is deterministic: given
+      the exact initial state of the device, the sequence of outcomes is fixed. Let <em>I</em> be
+      the space of all physically admissible initial states — all the ways you might release the coin.
+      Because the setup is fair, there is a symmetry that maps each initial state to a "mirror"
+      initial state that would produce the head/tail-flipped outcome sequence. So heads and tails
+      are treated evenly.
+    </p>
+
+    <p>
+      But to say that "most" initial states lead to near-balance, we need a weighting over <em>I</em>.
+      Symmetry does not give us one. There are many ways to weight <em>I</em> that all respect
+      the head/tail symmetry — all treating heads and tails evenly — while disagreeing sharply
+      about what is typical. One weighting might spread probability evenly across all initial states
+      and conclude that near-balance is overwhelmingly typical. Another might concentrate weight
+      on a narrow band of initial states that happen to produce imbalanced sequences and conclude
+      that imbalance is what to expect.
+    </p>
+
+    <p>
+      Symmetry rules out weightings that privilege heads over tails. It does not rule out weightings
+      that privilege some initial states over others — and different choices here can reverse what
+      counts as typical. The Fieldian who says "most initial conditions lead to near-balance" has
+      quietly made a choice that is not forced by the physics.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      A natural reply is that real coin-flipping devices are noisy. The initial state is never perfectly
+      known; small imprecisions wash out. In that setting, the physics itself might seem to select
+      a natural weighting — one that reflects the spread of our ignorance about the initial conditions
+      rather than anything stipulated.
+    </p>
+
+    <p>
+      This reply has real force in practice. But it does not dissolve the worry. To extract a privileged
+      weighting from noise, you have to add to the physical description: assumptions about the
+      distribution of imprecisions, a model of how error propagates, a choice of which invariances matter.
+      That is a substantive enrichment of the non-mathematical base, not something that falls out of
+      the minimal fair dynamics. And even after you have a privileged weighting over initial conditions,
+      you still need the bridge — the principle that says a measure-near-one set is what we should
+      expect to see.
+    </p>
+
+    <p>
+      The same issue appears in statistical mechanics, where typicality talk is used to explain why
+      gases expand and entropy increases even though the underlying dynamics are reversible. The idea
+      is that the initial conditions of our universe are typical with respect to the natural measure
+      on phase space, and typical initial conditions lead to entropy increase. This is a powerful
+      and fruitful way of thinking. But it relies on a claim about which measure is natural — and
+      that claim is not delivered by the dynamics alone. It has to be justified separately, and
+      different choices of measure can license very different claims about what is typical.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      None of this refutes Field. Conservativeness, as a formal claim, survives the fair-coin case.
+      Probability theorems give facts about measures, not about what any particular coin will do,
+      and so mathematics alone does not smuggle in new physical conclusions.
+    </p>
+
+    <p>
+      What changes is the character of the nominalist promise. Field's picture is attractive because
+      it suggests that we can do science with a lean physical base, using mathematics purely as
+      a representational convenience — a way of saying things we could already say without it,
+      just more efficiently. The fair-coin case shows that probabilistic science does not quite
+      fit this picture. To do the work probability actually does in science — distinguishing the
+      expected from the exceptional, licensing predictions, underwriting explanations — we need
+      a sorting of possibilities that the dynamics, on their own, do not supply.
+    </p>
+
+    <p>
+      Mathematics may still be conservative. But in the fair-coin setting, the non-mathematical
+      base has to carry more weight than the original promise implied. The sorting has to live
+      somewhere: in a typicality structure, in a privileged weighting over initial conditions,
+      or in epistemic norms about how to form credences. On any of these routes, the clean
+      picture of math as a transparent representational layer starts to look harder to maintain —
+      not because conservativeness fails, but because the work that probability does in science
+      turns out to require more from the nominalist's base than bare physical dynamics can provide.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Hartry Field, <em>Science Without Numbers: A Defense of Nominalism</em>, 2nd ed. Oxford University Press, 2016.</li>
+        <li>Hartry Field, "On conservativeness and incompleteness," <em>Journal of Philosophy</em> 82(5), 1985.</li>
+        <li>Stewart Shapiro, "Conservativeness and incompleteness," <em>Journal of Philosophy</em> 80(9), 1983.</li>
+        <li>Sheldon Goldstein, "Typicality and notions of probability in physics," in <em>Probability in Physics</em>, Springer, 2012.</li>
+        <li>Charlotte Werndl, "Justifying typicality measures of Boltzmannian statistical mechanics," <em>Studies in History and Philosophy of Modern Physics</em> 44(4), 2013.</li>
+        <li>Roman Frigg, "A field guide to recent work on the foundations of statistical mechanics," arXiv:0804.0399, 2008.</li>
+        <li>Meir Hemmo and Orly Shenker, "Probability and typicality in deterministic physics," <em>Erkenntnis</em> 80(3), 2015.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
