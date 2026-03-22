@@ -13,28 +13,30 @@
   <script src="js/theme.js"></script>
 </head>
 
-<div id="cursor" style="position:fixed;width:10px;height:1.2em;background:currentColor;opacity:0.7;pointer-events:none;z-index:9999;animation:blink 1s step-end infinite;"></div>
-<style>
-  @keyframes blink { 0%,100%{opacity:0.7} 50%{opacity:0} }
-</style>
-<script>
-  document.addEventListener('mousemove', e => {
-    const c = document.getElementById('cursor');
-    c.style.left = e.clientX + 'px';
-    c.style.top = e.clientY + 'px';
-  });
-</script>
 
-<script>
-  document.querySelectorAll('nav a').forEach(a => {
-    if (a.getAttribute('href') === window.location.pathname ||
-        a.getAttribute('href') === window.location.pathname + '/') {
-      a.classList.add('active');
-    }
-  });
-</script>
 
 <body>
+
+  <div id="cursor" style="position:fixed;width:10px;height:1.2em;background:currentColor;opacity:0.7;pointer-events:none;z-index:9999;animation:blink 1s step-end infinite;"></div>
+  <style>
+    @keyframes blink { 0%,100%{opacity:0.7} 50%{opacity:0} }
+  </style>
+  <script>
+    document.addEventListener('mousemove', e => {
+      const c = document.getElementById('cursor');
+      c.style.left = e.clientX + 'px';
+      c.style.top = e.clientY + 'px';
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
 
   <header class="site-header">
     <h1><a href="/">Austin Yang</a></h1>
