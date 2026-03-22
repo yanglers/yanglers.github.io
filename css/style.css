@@ -242,3 +242,7 @@ blockquote {
   z-index: -1;
   pointer-events: none;
 }
+
+html {
+  overflow-y: scroll;
+}
