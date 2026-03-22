@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond the Turing Limit — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2025 · essay</p>
+    <h1>Beyond the Turing Limit</h1>
+
+    <p>
+      There is a difference between a problem being hard and a problem being impossible.
+      Sorting a billion numbers is hard. Determining, in general, whether an arbitrary program
+      will ever halt is impossible: not in the sense that we have not found the algorithm yet,
+      but in the sense that no algorithm can exist. Turing proved this in 1936, and I find myself
+      returning not to the proof, which is clean and easy enough to follow, but to the question
+      it leaves open. Is the Turing machine the right model of computation in the first place?
+    </p>
+
+    <p>
+      The Church-Turing thesis says yes. It says that anything we would intuitively call
+      "effectively computable" can be computed by a Turing machine. This is not a theorem.
+      It cannot be, because it involves a pre-formal notion that resists precise definition.
+      It is a conjecture about the relationship between a mathematical abstraction and the
+      physical world. The fact that every proposed model of computation has turned out to be
+      equivalent to the Turing machine is strong evidence in its favor, but it is evidence,
+      not proof. Hypercomputation is the project of asking what would have to be true for it
+      to be wrong.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Turing's argument for the undecidability of the Halting Problem runs as follows.
+      Suppose there existed a program <em>H</em> that, given any program <em>P</em> and
+      any input <em>x</em>, correctly outputs "halts" or "loops forever." We can use <em>H</em>
+      to construct a program <em>D</em> that halts when <em>H</em> says it loops, and loops
+      when <em>H</em> says it halts. Now ask what <em>H</em> says when we run <em>D</em>
+      on itself. Either answer produces a contradiction, so <em>H</em> cannot exist.
+    </p>
+
+    <p>
+      The argument does not say that the Halting Problem is beyond our current computational
+      resources. It says that a correct solution would be self-undermining, that the existence
+      of such a program is logically incoherent within the framework of Turing computation.
+      This is the same structure as Gödel's incompleteness theorems, which show that any
+      sufficiently powerful formal system contains true statements it cannot prove. In both
+      cases, the diagonal argument generates the limit. The limits of computation and the
+      limits of formal proof turn out to be the same limit seen from different angles.
+    </p>
+
+    <p>
+      Turing himself was the first to ask what lay beyond this limit. In a 1939 paper, he
+      introduced oracle machines: Turing machines equipped with a black box that can answer
+      some fixed question, including undecidable ones, in a single step. An oracle for the
+      Halting Problem could answer any halting query instantly. With it, you can solve problems
+      undecidable for a standard Turing machine, but you immediately encounter new undecidable
+      problems, questions about programs that have access to the oracle. This generates a
+      hierarchy: the arithmetic hierarchy, an infinite tower of problems each undecidable
+      relative to the one below it. The oracle machine does not escape undecidability. It
+      relocates it.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The more physically motivated proposals try to find, in the actual structure of the
+      universe, a process that could play the role of an oracle. The simplest idea is an
+      accelerating machine. Suppose a computer could run its first step in one second, its
+      second in half a second, its third in a quarter, and so on. The total time elapsed
+      is two seconds, but the machine has completed infinitely many steps and can return
+      an answer about whether a given program ever halts.
+    </p>
+
+    <p>
+      This is a Zeno machine. The mathematical structure is coherent. The physical problem
+      is that each computational step requires dissipating energy, and the steps are
+      accelerating without bound, so the power requirements diverge. Below the Planck
+      time, roughly 10<sup>−43</sup> seconds, our current physics breaks down entirely,
+      and we do not know whether the universe supports arbitrarily fine-grained temporal
+      distinctions. The Zeno machine does not obviously violate any known law of physics,
+      but it pushes hard against our uncertainty about physics at the smallest scales.
+    </p>
+
+    <p>
+      A stranger proposal comes from general relativity. Einstein's field equations permit
+      spacetime geometries, called Malament-Hogarth spacetimes, in which two observers
+      following different paths through spacetime can experience radically different amounts
+      of elapsed time before meeting. One observer might experience infinite time while the
+      other experiences only finite time. In principle, the first observer could run a program
+      for infinitely long, determine whether it halts, and transmit the result to the second
+      observer at their meeting point. Whether such spacetimes are physically realizable is
+      genuinely unclear. They tend to require exotic matter with negative energy density,
+      which has never been observed and may be ruled out by quantum effects. But the fact
+      that general relativity does not obviously forbid such geometries is striking. It
+      suggests that the Church-Turing thesis, if true, is not purely a logical fact. It is
+      a claim about which spacetimes the universe instantiates.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Quantum computing sometimes enters this conversation, though it belongs to a different
+      one. Quantum computers can solve certain problems, most famously factoring large integers
+      via Shor's algorithm, exponentially faster than any known classical algorithm. But this
+      is a complexity advantage, not a computability one. The class of problems solvable by
+      a quantum computer is believed to be the same as the class solvable by a classical Turing
+      machine. Shor's algorithm does not solve the Halting Problem. The Church-Turing thesis,
+      as typically stated, concerns what is computable at all, and quantum computing leaves
+      it intact.
+    </p>
+
+    <p>
+      What quantum computing does do is remind us that our intuitions about computation are
+      shaped by classical physics. The universe at the quantum level is strange enough to give
+      us superposition and entanglement, and we are still learning what computational consequences
+      that strangeness has. It is worth being humble about claims that Turing machines are the
+      final word.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The philosophical stakes sharpen when you bring Gödel back in. His incompleteness
+      theorems show that for any consistent formal system strong enough to do arithmetic,
+      there are true statements about arithmetic the system cannot prove. The canonical
+      example is the Gödel sentence for a system S: a statement that says, in effect, "I
+      am not provable in S." The statement is true, we can see this from outside S, but
+      unprovable within S.
+    </p>
+
+    <p>
+      Roger Penrose argued in <em>The Emperor's New Mind</em> that human mathematicians
+      can recognize the truth of Gödel sentences in a way no Turing machine can, and that
+      mathematical insight involves something non-algorithmic. The argument has been widely
+      criticized in its technical details, but the underlying question is worth sitting with.
+      If a hypercomputer could prove currently unprovable mathematical statements, it would
+      not just be a faster calculator. It would be doing something that looks like insight,
+      seeing truths inaccessible to any fixed formal system.
+    </p>
+
+    <p>
+      One reading of this is Platonist: the truths were always there, and the hypercomputer
+      is better at finding them. A more unsettling reading: if every new axiom added to handle
+      a previously unprovable statement generates new unprovable statements, the incompleteness
+      does not go away. It gets pushed further up. A hypercomputer powerful enough to prove
+      everything provable in one system would immediately face the unprovable statements of
+      the next. There is no summit.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      None of the proposed hypercomputers are physically realizable, and most face obstacles
+      that look fundamental rather than contingent. The Zeno machine requires infinite energy.
+      The Malament-Hogarth machine requires exotic matter and a spacetime geometry that may
+      not exist. Analog machines that measure Chaitin's constant, the halting probability of
+      a random program, require infinite precision in a universe that the Bekenstein bound
+      suggests is finite in its information content.
+    </p>
+
+    <p>
+      The interesting question is not whether any of these machines will be built. It is what
+      their possibility conditions tell us about the Church-Turing thesis. We believe the thesis
+      because every model of computation we have proposed has turned out to be equivalent to the
+      Turing machine, not because we have proved that physical processes cannot exceed Turing
+      computation. The thesis could in principle be refuted by a physical discovery. That is
+      unusual for something that looks like a foundational claim in mathematics, and it is
+      what makes hypercomputation worth thinking about even if none of its machines ever run.
+    </p>
+
+    <p>
+      The limits of computation and the limits of formal proof are limits on what can be known
+      from within a fixed framework. Gödel showed that any framework strong enough to be
+      interesting is incomplete. Turing showed that any framework strong enough to be universal
+      cannot decide its own halting behavior. Every proposed path to hypercomputation, in every
+      case considered so far, requires stepping outside the universe we have.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Alan Turing, "On Computable Numbers, with an Application to the Entscheidungsproblem," <em>Proceedings of the London Mathematical Society</em>, 1936.</li>
+        <li>Alan Turing, "Systems of Logic Based on Ordinals," <em>Proceedings of the London Mathematical Society</em>, 1939.</li>
+        <li>B. Jack Copeland, "Hypercomputation," <em>Minds and Machines</em> 12(4), 2002.</li>
+        <li>Martin Davis, "Why there is no such discipline as hypercomputation," <em>Applied Mathematics and Computation</em> 178(1), 2006.</li>
+        <li>Roger Penrose, <em>The Emperor's New Mind</em>. Oxford University Press, 1989.</li>
+        <li>Jeremy Avigad, "Computability and Incompleteness," lecture notes, Carnegie Mellon University, 2007.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
