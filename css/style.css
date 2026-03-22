@@ -252,7 +252,7 @@ html::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
 
-#writing-bg {
+#attractor-bg {
   position: fixed;
   top: 0;
   left: 0;
