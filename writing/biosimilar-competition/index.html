@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Competition Without Transparency — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2025 · essay</p>
+    <h1>Competition Without Transparency</h1>
+
+    <p>
+      When a generic drug enters the market, the story is simple. The generic is chemically
+      identical to the brand, it launches at a steep discount, pharmacists substitute it
+      automatically, and prices fall. The brand drug loses most of its volume. Patients and
+      payers save money. The mechanism is transparent and the outcome is reliably competitive.
+    </p>
+
+    <p>
+      Biosimilars were supposed to do the same thing for biologics, the large-molecule drugs
+      that have come to dominate pharmaceutical spending. Biologic medicines now account for
+      a disproportionate share of drug costs in the US, with a handful of top products
+      consuming nearly a fifth of Medicare Part D gross spending. The Biologics Price
+      Competition and Innovation Act of 2009 created an abbreviated approval pathway for
+      biosimilars, explicitly modeled on the generic pathway. The expectation was analogous
+      competition, analogous savings.
+    </p>
+
+    <p>
+      The expectation has not been met, and the reasons why are genuinely interesting. The
+      biosimilar market has not failed because competitors are absent. As of early 2025, the
+      FDA had approved over sixty biosimilars across numerous reference products, with
+      substantial market growth projected. The failure is more specific: the competitive
+      mechanism itself works differently, in ways that are worth understanding carefully.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The first relevant difference between biosimilars and generics is technical. A small
+      molecule generic is an exact chemical copy. Its active ingredient is identical to the
+      brand's at the molecular level, and identity can be demonstrated analytically. A biosimilar
+      is a biological product derived from living cells, and because biological manufacturing
+      processes are inherently variable, no two batches of any biologic are perfectly identical,
+      including batches of the originator product itself. Biosimilars are not exact copies; they
+      are highly similar products with no clinically meaningful differences in safety, purity,
+      or potency. This is a regulatory standard, not a chemical identity claim.
+    </p>
+
+    <p>
+      The distinction matters because it creates space for perceived differentiation where no
+      real differentiation exists. Physicians and patients who understand the generic framework
+      intuitively may apply it incorrectly to biosimilars, treating "highly similar" as less
+      reassuring than "identical." Surveys consistently show substantial provider knowledge
+      gaps: many physicians express concern about subtle efficacy differences, immunogenicity
+      risk on switching, and the implications of the term "biosimilar" itself. These concerns
+      are not supported by clinical evidence, but they shape prescribing behavior. A product
+      that is clinically equivalent but perceived as inferior competes at a disadvantage that
+      has nothing to do with its actual properties.
+    </p>
+
+    <p>
+      This perceived differentiation is the first thing the originator manufacturer can exploit.
+      Standard models of market competition with differentiated products predict that when a
+      new entrant is perceived as lower quality, the incumbent can maintain a price premium
+      and retain a loyal segment of the market even under competitive pressure. The relevant
+      question for the originator is not whether to compete, but how. And the answer the
+      originator has consistently chosen is surprising: compete on net price, not on list price,
+      and use the rebate system to do it.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      To understand what this means, it helps to understand how drug prices actually work in
+      the US market. There are two prices that matter. The list price, called the Wholesale
+      Acquisition Cost or WAC, is the nominal price at which a manufacturer sells a drug to
+      distributors. The net price, often measured as Average Sales Price or ASP, is what
+      manufacturers actually receive after rebates and discounts paid to pharmacy benefit
+      managers, insurers, and other intermediaries. The spread between these two numbers
+      can be enormous, and it has been growing.
+    </p>
+
+    <p>
+      Pharmacy benefit managers, or PBMs, are the intermediaries who negotiate drug benefits
+      on behalf of health plans. They design formularies that determine which drugs are covered
+      at which tier of cost-sharing, and they negotiate rebates from manufacturers in exchange
+      for favorable placement. A drug on the preferred tier is accessible to patients at lower
+      out-of-pocket cost; a drug on a non-preferred tier or excluded from the formulary
+      altogether faces a substantial barrier to uptake regardless of its clinical profile.
+      Formulary placement is, in practice, the most important determinant of market share
+      for many drugs.
+    </p>
+
+    <p>
+      When biosimilar competition arrives, the originator faces a choice. It can lower its
+      list price and accept reduced margins, hoping to retain volume. Or it can maintain its
+      list price and offer PBMs larger rebates in exchange for continued preferred formulary
+      status, effectively lowering its net price while keeping its WAC intact. Empirical data
+      on originator responses to biosimilar entry shows that the second strategy has been
+      overwhelmingly preferred. In response to competition for drugs like pegfilgrastim,
+      infliximab, and rituximab, originators increased rebates by 51%, 110%, and 257%
+      respectively, achieving net price reductions of 47-64% with minimal changes to list prices.
+    </p>
+
+    <p>
+      The logic is straightforward. Lowering the list price is a permanent, visible concession
+      that benefits everyone who buys the drug, including the price-sensitive segment the
+      biosimilar is targeting. Offering rebates to PBMs targets the formulary placement
+      mechanism directly, rewarding the intermediaries who control market access while leaving
+      list prices high. For PBMs whose business model benefits from rebate volume, a high-WAC
+      drug with large rebates can be preferable to a low-WAC drug with small rebates, even
+      if the net cost is identical or higher. The originator's rebate strategy works precisely
+      because PBM incentives are not aligned with minimizing net drug costs.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Biosimilar manufacturers, facing this environment, have developed their own response.
+      Several biosimilar entrants now offer two versions of the same product at different list
+      prices: a low-WAC version with minimal rebates, aimed at entities that make decisions
+      based on net cost, and a high-WAC version with substantial rebates, aimed at PBMs that
+      benefit from rebate revenue. This is the dual WAC strategy, and its existence is the
+      clearest evidence that the biosimilar market is not functioning the way the generic
+      market does.
+    </p>
+
+    <p>
+      In a market where competition works normally, manufacturers do not need to offer the
+      same drug at two prices to serve different intermediary preferences. The dual WAC
+      strategy is an accommodation to a broken incentive structure. It adds cost and complexity,
+      fragments the biosimilar manufacturer's market, and means that the same product is
+      sometimes priced higher specifically to generate the rebates that secure formulary access.
+      Patients whose plans adopt the high-WAC version pay more in cost-sharing than patients
+      whose plans adopt the low-WAC version, for the same drug, with the difference captured
+      by the intermediary.
+    </p>
+
+    <p>
+      The welfare implications of this structure are worth tracing carefully. Rebates are
+      often described as savings that reduce net spending for payers. But rebate savings are
+      not automatically passed through to patients. Plan premiums reflect payer spending
+      in aggregate, not drug-by-drug, and patient cost-sharing is often tied to list prices
+      rather than net prices. A patient with a 20% coinsurance requirement pays 20% of the
+      WAC, not 20% of the WAC minus the rebate their insurer collected. The rebate system
+      can simultaneously lower what a plan spends on a drug and raise what the patient pays
+      for it, with the difference as revenue for the PBM.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      A useful framework for modeling this market is a multi-stage game between the originator,
+      biosimilar entrants, and the payer. The originator moves first, setting a pricing strategy
+      that incorporates anticipated biosimilar entry. Potential biosimilar entrants then decide
+      whether to pay the substantial fixed cost of entry, on the order of $100-250 million,
+      given expected post-entry competition and the originator's strategy. Entered biosimilars
+      then set prices. The payer's influence operates throughout, shaping demand via formulary
+      decisions that respond to manufacturer contracting.
+    </p>
+
+    <p>
+      The equilibrium predictions from this framework align with observed behavior. When
+      perceived differentiation between the originator and biosimilars is low, or when payer
+      pressure is high, the originator's optimal strategy is to compete aggressively on net
+      price rather than cede the market. This is the "fight" outcome, characterized by large
+      rebates and maintained list prices. When differentiation is perceived as high and payer
+      pressure is low, the originator may "acquiesce," maintaining margins and accepting some
+      volume loss to biosimilars. The transition between these equilibria depends critically
+      on the size of the loyal segment of the market that will not switch to a biosimilar
+      regardless of price.
+    </p>
+
+    <p>
+      Entry decisions by biosimilar firms are sensitive to expected post-entry profitability,
+      which declines as more competitors enter. There is a level of competition beyond which
+      additional entry is not profitable given the fixed costs involved. This generates a
+      theoretically predicted "biosimilar void": for biologics where expected market size and
+      post-entry margins are insufficient to justify development costs, no biosimilars will
+      be developed even after the originator's patents expire. IQVIA has documented that
+      for 106 of 118 biologics losing patent protection between 2025 and 2034, no biosimilars
+      are currently in development. The market is growing in aggregate while large gaps
+      persist for individual products.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The Inflation Reduction Act introduced two provisions directly relevant to this market.
+      The first empowers Medicare to negotiate a maximum fair price for high-expenditure
+      biologics that lack generic or biosimilar competition after a period of market exclusivity.
+      The second temporarily increases Medicare Part B reimbursement for qualifying biosimilars
+      from 6% to 8% of the reference product's ASP, intended to make prescribing biosimilars
+      more financially attractive to physicians and hospitals.
+    </p>
+
+    <p>
+      The price negotiation provision creates a tension the framework makes visible. Negotiating
+      a lower originator price shrinks the price umbrella under which biosimilar manufacturers
+      compete. Since biosimilars price at a discount to the originator, a lower negotiated
+      originator price means lower absolute margins for biosimilars, reducing the profitability
+      of entry. For biologics already at the margin of attracting biosimilar development,
+      price negotiation may push expected profits below the entry cost threshold, worsening
+      the void. The policy lowers current costs while potentially reducing future competition.
+      The net welfare effect depends on the magnitude of immediate savings relative to the
+      value of foregone competition, a calculation that requires knowing how many biosimilar
+      entries would have occurred in the counterfactual.
+    </p>
+
+    <p>
+      The Part B reimbursement enhancement addresses a specific distortion in the physician-administered
+      drug market. Under standard Medicare Part B rules, physicians and hospitals are reimbursed
+      at ASP plus 6% for drugs they administer. For a high-ASP originator, the 6% add-on is
+      a larger absolute dollar amount than for a lower-ASP biosimilar, creating a financial
+      incentive to use the more expensive product. The IRA's increase to ASP plus 8% of the
+      reference product's ASP for qualifying biosimilars attempts to offset this. Early evidence
+      suggests the impact has been modest, partly because the conditionality requires the
+      biosimilar's ASP to be below the reference product's ASP, which aggressive originator
+      net price competition can undermine, and partly because formulary and health system
+      factors dominate individual prescribing decisions.
+    </p>
+
+    <p>
+      State-level Prescription Drug Affordability Boards add another layer. Several states
+      have established boards with the authority to review drug affordability and impose upper
+      payment limits on certain high-cost products within state-regulated markets. As binding
+      price ceilings, these limits reduce manufacturer margins in the affected segment and
+      strengthen the payer's negotiating position. The risks mirror those of federal negotiation:
+      reduced margins can deter biosimilar development and, in the most aggressive scenarios,
+      prompt manufacturers to restrict availability in the affected market. The effectiveness
+      of these limits also depends heavily on design. A board that targets drugs without
+      existing competition may affect different manufacturers and incentives than one that
+      applies to a market where multiple competitors already exist.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The distributional consequences of these policy interventions are not neutral across
+      stakeholders. Price controls and enhanced competition both reduce manufacturer surplus,
+      particularly for originators. Payer spending falls. Whether these gains translate to
+      lower costs for patients depends on whether savings are passed through via premiums
+      and cost-sharing design, which is not guaranteed given the rebate structure. Policies
+      that reduce biosimilar entry also harm future patients who would have benefited from
+      competition in markets that never develop it.
+    </p>
+
+    <p>
+      The core tension in this market is that the mechanisms most effective at lowering
+      current prices tend to weaken the conditions for sustained future competition. High
+      biosimilar entry costs and the dependence of entry decisions on expected post-entry
+      margins mean that the market equilibrium is fragile in a way the generic market is not.
+      A generic manufacturer's entry cost is low enough that even modest margins attract
+      competition. A biosimilar manufacturer's entry cost is high enough that competition
+      is contingent on a sufficiently large price umbrella, which every cost-control measure
+      compresses.
+    </p>
+
+    <p>
+      The biosimilar market is not failing in the trivial sense of having too few competitors.
+      It is failing in the more interesting sense that its competitive mechanism is captured
+      by an intermediary structure with misaligned incentives, and the policies designed to
+      correct for this capture interact in ways that may trade near-term savings against
+      long-run competition. Fixing it requires either reforming the rebate system so that
+      PBM incentives align with minimizing net costs, or accepting that a market with these
+      structural features will need continuous regulatory intervention to produce outcomes
+      that transparent competition would deliver automatically.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Luca Maini, "Biosimilar Entry and the Pricing of Biologic Drugs," working paper, 2024.</li>
+        <li>Robin Frank and David Salkever, "Generic Entry and the Pricing of Pharmaceuticals," <em>Journal of Economics and Management Strategy</em> 6(1), 1997.</li>
+        <li>Kate Ho et al., "Formulary Design in the US Prescription Drug Market," working paper, 2023.</li>
+        <li>IQVIA Institute, "Assessing the Biosimilar Void in the US," 2024.</li>
+        <li>Avalere Health, "How Will the IRA Impact the Future of Biosimilars?" 2023.</li>
+        <li>ASPE, "Medicare Enrollee Use and Spending on Biosimilars, 2018-2023," 2024.</li>
+        <li>Center for Biosimilars, "The Rebate War: How Originator Companies Are Fighting Back Against Biosimilars," 2023.</li>
+        <li>JMCP, "Sustaining competition for biosimilars on the pharmacy benefit: Use it or lose it," 2024.</li>
+        <li>Duke-Margolis Center for Health Policy, "Revisiting Interchangeability to Realize the Benefit of Biosimilars," 2021.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
