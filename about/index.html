@@ -130,13 +130,40 @@
     window.addEventListener('resize', resize);
 
     const fragments = [
-      '你好', '一只羊', '毅', '智', 'ἀτλάς', 'eustress', 'shrub-lined',
-      '...', 'asymptotically', 'مرحبا', 'Привет', 'こんにちは', '안녕하세요',
-      'tenacity', 'wisdom', 'one sheep', 'pistachio latte', 'Harvard Bridge',
-      'atlás', 'Kendall Square', 'Newbury St', 'Red Line', 'NSO', 'A→B→C→D',
-      'East Brunswick', 'yanglers', 'atlas', '🐑', 'Fenway', 'Point72',
-      'curiosity', 'eustress', 'West Coast', 'B→?', 'what comes next',
-      'تلاش', 'सफ़र', 'παρά', '旅', 'voyage', 'Tatte', '지혜',
+      // Chinese name & meaning
+      '毅', '智', '一只羊', 'Yizhi Yang', 'tenacity', 'wisdom', '🐑',
+
+      // Atlas motif
+      'ἀτλάς', 'Atlas', 'atlas', 'endurance', 'tenacity',
+
+      // Nicknames & identity
+      'yanglers', 'one sheep', 'shrub-lined suburbia',
+
+      // Places
+      'East Brunswick', 'New Jersey', 'Stanford', 'California',
+      'Cambridge', 'Boston', 'Kendall Square', 'Central Square',
+      'Harvard Bridge', 'Newbury Street', 'Chinatown', 'Fenway',
+      'New York City', 'West Coast', 'East Coast',
+
+      // Institutions & orgs
+      'Moderna', 'Amgen', 'F-Prime', 'Point72', 'MIT', 'Tatte',
+
+      // Concepts & phrases
+      'eustress', 'asymptotically', 'A→B→C→D', 'B→?',
+      'glow-up', 'pistachio latte', 'Red Line', 'NSO',
+      'move-in day', 'frosh prediction', 'juxtaposition',
+      'present self', 'what comes next', 'the ride',
+
+      // Languages & multilingual nods
+      '你好', 'مرحبا', 'Привет', 'こんにちは', '안녕하세요',
+      'Bonjour', 'Hola', 'Olá', 'สวัสดี', 'नमस्ते',
+      'Ciao', 'Hallo', 'שלום', 'Merhaba', '지혜',
+      'سفر', '旅', 'voyage', 'παρά', 'تلاش',
+
+      // Themes & emotions
+      'curiosity', 'home', 'suburbia', 'introverted',
+      'capable', 'motivation', 'reservations', 'confidence',
+      'exciting', 'opaque', 'no idea', 'beyond',
     ];
 
     const particles = fragments.map(text => ({
