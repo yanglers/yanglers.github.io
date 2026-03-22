@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Univariate Guided Sparse Regression — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+  <style>
+    .note-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .note-body {
+      max-width: 640px;
+    }
+
+    .note-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .math-display {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 2px solid var(--secondary-color);
+      overflow-x: auto;
+      font-size: 0.95rem;
+    }
+
+    .math-label {
+      font-size: 0.72rem;
+      opacity: 0.45;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .property-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .property-list li {
+      padding: 0.5rem 0;
+      padding-left: 1rem;
+      border-left: 2px solid var(--secondary-color);
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .property-list li strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 1.5rem 0;
+    }
+
+    .compare-table th {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--secondary-color);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.6;
+    }
+
+    .compare-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--tertiary-background-color);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag-unilasso {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      border: 1px solid var(--secondary-color);
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="note-body">
+    <p class="note-meta">CME 510 · notes</p>
+    <h1>Univariate Guided Sparse Regression</h1>
+
+    <p>
+      Notes from a talk on Unilasso, an adaptive regularization method that adjusts
+      penalty strength based on coefficient magnitude. The core motivation is that
+      LASSO applies a uniform \(\ell_1\) penalty across all coefficients, which
+      over-shrinks large ones and produces biased estimates for strong predictors.
+    </p>
+
+    <hr class="section-break">
+
+    <h2>Background: LASSO and its limitations</h2>
+
+    <p>
+      The standard LASSO solves:
+    </p>
+
+    <div class="math-display">
+      <div class="math-label">LASSO objective</div>
+      \[
+        \hat{\beta} = \arg\min_{\beta} \left\{
+          \frac{1}{2n} \| y - X\beta \|_2^2 + \lambda \sum_{j} |\beta_j|
+        \right\}
+      \]
+    </div>
+
+    <p>
+      The uniform \(\lambda |\beta_j|\) penalty is the source of two problems that
+      Unilasso targets. First, large true coefficients are shrunk by the same
+      amount as small ones, introducing bias that does not vanish as \(n \to \infty\)
+      unless \(\lambda \to 0\). Second, the selection boundary is the same for all
+      predictors regardless of their signal strength, so weakly relevant predictors
+      are discarded at the same threshold that also removes noise.
+    </p>
+
+    <hr class="section-break">
+
+    <h2>The Unilasso formulation</h2>
+
+    <p>
+      Unilasso replaces the uniform \(\ell_1\) penalty with a separable adaptive
+      penalty \(P_\lambda(\beta) = \sum_j \rho_\lambda(\beta_j)\), where:
+    </p>
+
+    <div class="math-display">
+      <div class="math-label">Unilasso penalty</div>
+      \[
+        \rho_\lambda(\beta) = \lambda \frac{|\beta|}{1 + \gamma |\beta|}
+      \]
+    </div>
+
+    <p>
+      The parameter \(\gamma > 0\) controls how quickly the penalty saturates for
+      large \(|\beta|\). The key behaviors:
+    </p>
+
+    <ul class="property-list">
+      <li>
+        <strong>Small \(|\beta|\)</strong>
+        \(\rho_\lambda(\beta) \approx \lambda|\beta|\) — behaves like LASSO, aggressively
+        shrinking small coefficients toward zero.
+      </li>
+      <li>
+        <strong>Large \(|\beta|\)</strong>
+        \(\rho_\lambda(\beta) \to \lambda/\gamma\) — penalty saturates, so strong predictors
+        experience diminishing penalization.
+      </li>
+      <li>
+        <strong>Gradient</strong>
+        \(\rho'_\lambda(\beta) = \lambda / (1 + \gamma|\beta|)^2\) — decreasing in \(|\beta|\),
+        which is the mechanism of bias reduction.
+      </li>
+    </ul>
+
+    <p>
+      The gradient of the full penalty used in coordinate descent is:
+    </p>
+
+    <div class="math-display">
+      <div class="math-label">Penalized gradient</div>
+      \[
+        \frac{\partial}{\partial \beta_j} P_\lambda(\beta)
+        = \frac{\lambda \operatorname{sign}(\beta_j)}{(1 + \gamma |\beta_j|)^2}
+      \]
+    </div>
+
+    <p>
+      Since \(\rho_\lambda\) is nonconvex, the overall objective is nonconvex. Coordinate
+      descent converges to a stationary point rather than a global minimum, which is standard
+      for nonconvex penalized regression. In practice this is handled the same way as SCAD
+      and MCP.
+    </p>
+
+    <hr class="section-break">
+
+    <h2>Theoretical guarantees</h2>
+
+    <p>
+      The talk establishes the following properties under standard sparsity and design
+      conditions (bounded eigenvalues of \(X^TX/n\), sub-Gaussian noise):
+    </p>
+
+    <ul class="property-list">
+      <li>
+        <strong>Oracle property</strong>
+        With appropriate \(\lambda_n\), Unilasso asymptotically selects the true support
+        and the estimates on the support converge at the parametric rate, as if the true
+        support were known in advance.
+      </li>
+      <li>
+        <strong>Selection consistency</strong>
+        \(P(\hat{S} = S^*) \to 1\) where \(S^* = \{j : \beta^*_j \neq 0\}\). Unlike
+        LASSO, this holds without requiring the irrepresentability condition.
+      </li>
+      <li>
+        <strong>Estimation bias</strong>
+        For \(\beta_j^* \neq 0\), the bias of \(\hat\beta_j\) decays as
+        \(O(\lambda / (1 + \gamma|\beta_j^*|)^2)\), which goes to zero for fixed
+        nonzero \(\beta_j^*\) as \(\lambda \to 0\). LASSO bias is \(O(\lambda)\)
+        regardless of coefficient size.
+      </li>
+      <li>
+        <strong>Computational complexity</strong>
+        Coordinate descent updates are \(O(n)\) per coordinate (same as LASSO),
+        so the method scales to high-dimensional problems.
+      </li>
+    </ul>
+
+    <hr class="section-break">
+
+    <h2>Comparison with related methods</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Penalty</th>
+          <th>Key limitation</th>
+          <th>Unilasso vs.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LASSO</td>
+          <td>\(\lambda|\beta|\)</td>
+          <td>Uniform shrinkage, biased for large \(\beta\), requires irrepresentability for selection consistency</td>
+          <td>Unilasso reduces bias via saturating penalty; oracle property holds without irrepresentability</td>
+        </tr>
+        <tr>
+          <td>Elastic Net</td>
+          <td>\(\lambda_1|\beta| + \lambda_2\beta^2\)</td>
+          <td>Handles correlated features but does not resolve over-shrinkage of large coefficients</td>
+          <td>Unilasso adaptively reduces penalization for large \(\beta\); one fewer hyperparameter</td>
+        </tr>
+        <tr>
+          <td>SCAD</td>
+          <td>Piecewise nonconvex, flat beyond threshold</td>
+          <td>Achieves oracle property but requires tuning of two parameters (\(\lambda\), \(a\)); less interpretable penalty shape</td>
+          <td>Similar oracle property; Unilasso penalty \(\rho_\lambda\) has a single additional parameter \(\gamma\) with clear interpretation</td>
+        </tr>
+        <tr>
+          <td>MCP</td>
+          <td>Minimax concave, linear then flat</td>
+          <td>Good bias-variance tradeoff but less smooth penalty derivative at transition</td>
+          <td>Unilasso penalty is smooth everywhere; gradient-based optimization cleaner</td>
+        </tr>
+        <tr>
+          <td>Adaptive LASSO</td>
+          <td>\(\sum_j w_j |\beta_j|\) with data-dependent weights</td>
+          <td>Requires a first-stage estimator to set weights; oracle property depends on quality of first stage</td>
+          <td>Unilasso achieves adaptivity within a single optimization; no first-stage estimator needed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="section-break">
+
+    <h2>What makes this interesting</h2>
+
+    <p>
+      The core insight is that the oracle property for LASSO requires conditions
+      (irrepresentability, restricted eigenvalue, or similar) that rule out correlated
+      predictors in practice. Nonconvex penalties like SCAD and MCP have been known to
+      circumvent these conditions for a while. What Unilasso adds is a specific functional
+      form, \(\lambda|\beta|/(1 + \gamma|\beta|)\), that has a clear interpretation as
+      a smoothly saturating penalty: it looks like \(\ell_1\) near zero and like a constant
+      for large values. This makes the bias reduction mechanism transparent in a way
+      that SCAD's piecewise definition does not.
+    </p>
+
+    <p>
+      The empirical claim that Unilasso requires less tuning than SCAD or MCP is worth
+      watching. In practice, cross-validation over \(\gamma\) is still needed, so the
+      claim is more about stability of performance across values of \(\gamma\) than about
+      truly requiring fewer hyperparameters.
+    </p>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
