@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reconstructing the Machine — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .math-block {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 2px solid var(--secondary-color);
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+
+    .math-block .label {
+      font-size: 0.72rem;
+      opacity: 0.45;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2024 · essay</p>
+    <h1>Reconstructing the Machine</h1>
+
+    <p>
+      In 1940, a team of American cryptographers led by William Friedman broke the
+      Japanese PURPLE cipher without ever seeing the machine that produced it. They
+      built a working replica from intercepted ciphertexts alone, reconstructing the
+      internal wiring, rotor configurations, and switching logic of an electromechanical
+      device they had never touched. The replica produced decryptions that matched
+      Japanese diplomatic traffic. When American officials finally did obtain a PURPLE
+      machine after Japan's surrender, they found the replica was correct in every
+      meaningful detail.
+    </p>
+
+    <p>
+      This is the most striking fact about Operation Magic, and it points toward a
+      question more interesting than how the cipher was broken: what mathematical
+      properties of a deterministic encryption system make it reconstructible from
+      its outputs? The answer connects the specific vulnerabilities of RED, BLUE, and
+      PURPLE to a general principle that Shannon would formalize nine years later, and
+      it explains why no amount of mechanical complexity could have saved these systems
+      without a fundamental change in how keys relate to messages.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The RED cipher, Japan's first widely used diplomatic system, encrypted text using
+      a polyalphabetic substitution with a repeating key of period \(n\). Each position
+      \(i\) in the message was encrypted by a fixed bijective substitution \(f_{k(i)}\),
+      where \(k(i) = (i \bmod n)\) determined which substitution to apply. The ciphertext
+      character \(c_i\) was:
+    </p>
+
+    <div class="math-block">
+      <div class="label">RED substitution</div>
+      \[ c_i = f_{k(i)}(p_i) \]
+    </div>
+
+    <p>
+      The vulnerability is the periodicity of \(k(i)\). Once a cryptanalyst determines
+      \(n\), the ciphertext can be partitioned into \(n\) streams, each encrypted by a
+      single fixed substitution. The Kasiski examination finds \(n\) by observing that
+      repeated substrings in the ciphertext tend to occur at distances that are multiples
+      of the key period: if a string \(S\) appears at positions \(i\) and \(j\), then
+      \((j - i)\) is likely a multiple of \(n\), so \(n \mid \gcd(j_1 - i_1, j_2 - i_2, \ldots)\).
+      Each stream then yields to standard frequency analysis, since the empirical character
+      distribution of a long ciphertext stream converges to the plaintext distribution
+      under the fixed substitution, and natural language has very unequal character frequencies.
+    </p>
+
+    <p>
+      The key entropy of RED is low not because the substitutions are weak in isolation,
+      but because the key repeats. A message of length \(L\) is encrypted using a key of
+      length \(n \ll L\), which means the system provides only \(n\) bits of entropy per
+      \(L\) characters. The per-character key entropy goes to zero as \(L\) grows. This is
+      the structural failure.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      BLUE attempted to address this by making the key sequence non-periodic. Instead of
+      a simple repeating cycle, the key state \(k(i)\) was made to depend on the previous
+      state through a transition matrix, giving the key sequence Markovian structure:
+    </p>
+
+    <div class="math-block">
+      <div class="label">BLUE key dynamics</div>
+      \[ P(k(i) = s \mid k(i-1) = t) = M_{st} \]
+    </div>
+
+    <p>
+      If the transition matrix \(M\) defines an ergodic Markov chain, the key sequence
+      visits each state according to a stationary distribution \(\pi\) satisfying
+      \(\pi M = \pi\), and there is no simple period to detect by Kasiski analysis.
+      This was a genuine improvement. The surface statistics of the ciphertext became
+      harder to interpret directly.
+    </p>
+
+    <p>
+      But the improvement was shallower than it looked. The total number of distinct
+      substitution functions remained finite — the cipher had \(n\) possible key states,
+      each associated with a fixed bijection over the alphabet. Given enough known
+      plaintext, a cryptanalyst can recover the substitution table for each key state
+      independently, because each state \(s\) produces a fixed mapping \(f_s'\) that
+      is consistent across all positions where \(k(i) = s\). The Markovian structure
+      obscures which state is active at each position, but it does not prevent the
+      accumulation of evidence. Known-plaintext pairs can be partitioned by hypothesized
+      key state, and the substitution for each state is recovered once enough examples
+      of that state accumulate. The transition matrix itself can be estimated from the
+      recovered key sequence.
+    </p>
+
+    <p>
+      The lesson from BLUE is that adding stochastic dynamics to a finite key alphabet
+      does not increase the information-theoretic security of the system. The number of
+      possible keys is still \(n \cdot (r!)^n\) where \(r\) is the alphabet size, and
+      this is finite regardless of how complex the transitions between keys are made.
+      A cipher's security cannot exceed the entropy of its key, and BLUE's key entropy
+      was bounded by the finite state space even as its dynamics became more elaborate.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      PURPLE was a different kind of machine. It was electromechanical, with multiple
+      telephone stepping switches that advanced through positions as messages were typed,
+      generating a composition of permutations that was far more complex in practice than
+      RED or BLUE. The encryption of character \(p_i\) was:
+    </p>
+
+    <div class="math-block">
+      <div class="label">PURPLE substitution</div>
+      \[ c_i = \pi_{k(i)}(p_i) \]
+    </div>
+
+    <p>
+      where \(\pi_{k(i)}\) was the permutation defined by the current rotor configuration,
+      and the state \(k(i)\) advanced according to the mechanical stepping of the switches.
+      The total keyspace was enormous — the product of all possible rotor settings and
+      switch configurations across the machine's components. PURPLE's designers believed
+      this complexity was sufficient protection.
+    </p>
+
+    <p>
+      What they underestimated was the constraint that a deterministic machine places on
+      its own outputs. Every PURPLE message was produced by a machine with a fixed
+      physical structure. That structure imposed regularities that persisted across
+      messages encrypted with different daily key settings. The machine always separated
+      the alphabet into two groups — six letters handled by one switching bank, twenty
+      by another — and this partition was constant across all settings. Cryptanalysts
+      noticed that ciphertext letters clustered in ways consistent with a fixed alphabetic
+      split, and this observation gave them a structural foothold into the machine's design.
+    </p>
+
+    <p>
+      The reconstruction proceeded by accumulating constraints. Each known-plaintext pair
+      \((p_i, c_i)\) fixed one value of \(\pi_{k(i)}\), and because permutations are
+      bijections, each fixed value also ruled out every other mapping for that position.
+      The key state \(k(i)\) advanced deterministically, so constraints at different
+      positions were linked by the stepping logic. Over enough messages, the system of
+      constraints was overdetermined: there were more equations than unknowns, and the
+      unique solution was the true machine configuration. The analog replica was essentially
+      the solution to this system of equations built in hardware.
+    </p>
+
+    <p>
+      The reason PURPLE could be reconstructed from its outputs, and the reason this is
+      more than a historical curiosity, is that it had a key entropy far below its apparent
+      structural complexity. The daily key settings defined the rotor positions and
+      connections, but once those settings were fixed, every character in that day's
+      traffic was determined. A day's worth of diplomatic messages, which often ran to
+      thousands of characters, was generated by a key that could be specified in a
+      few hundred bits. The ratio of message length to key length was enormous, and
+      that ratio is precisely what Shannon would later identify as the source of
+      exploitable redundancy.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Shannon's 1949 paper on the communication theory of secrecy systems provided the
+      theoretical framework that makes clear why RED, BLUE, and PURPLE all failed for
+      the same reason despite their apparent differences. A cipher achieves perfect
+      secrecy if and only if the key entropy is at least as large as the message entropy:
+      every possible plaintext must be equally likely given any observed ciphertext.
+      This requires a key that is at least as long as the message and used only once.
+      The one-time pad is the canonical example and the only system that meets this
+      standard.
+    </p>
+
+    <p>
+      Every cipher that falls short of this standard has a unicity distance: a message
+      length beyond which the ciphertext uniquely determines the plaintext given enough
+      computation. For RED, the unicity distance was short because the key was short
+      relative to messages. For BLUE, the finite state space of the key sequence kept
+      the effective key entropy bounded even as the dynamics became more complex. For
+      PURPLE, the daily key settings produced a fixed, exploitable structure across all
+      messages sent under those settings.
+    </p>
+
+    <p>
+      The Japanese cryptographic program during the war was not unsophisticated. Each
+      successive system was a genuine engineering improvement. But each improvement
+      worked within the same paradigm: a deterministic machine with a finite key space
+      generating arbitrarily long messages. Within that paradigm, no amount of additional
+      complexity could approach perfect secrecy, because the ratio of key entropy to
+      message entropy was always going to zero as messages accumulated.
+    </p>
+
+    <p>
+      What Operation Magic demonstrated, then, was not just the specific vulnerabilities
+      of three cipher systems. It demonstrated the general principle that deterministic
+      machines leave traces of themselves in their outputs, and that enough ciphertext
+      always suffices to reconstruct the machine that produced it, if the machine's key
+      entropy is finite and its messages are long. Friedman's team built PURPLE's replica
+      not by guessing but by solving: the machine was the unique object consistent with
+      everything they had observed. The mathematics of that reconstruction is, in
+      retrospect, exactly what Shannon's theory would have predicted.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Shannon, C. E. "Communication Theory of Secrecy Systems." <em>Bell System Technical Journal</em> 28(4), 1949.</li>
+        <li>Friedman, W. F. <em>The Contribution of Cryptanalysis to Victory in World War II</em>, 1946.</li>
+        <li>Budiansky, S. <em>Battle of Wits: The Complete Story of Codebreaking in World War II</em>. Free Press, 2000.</li>
+        <li>Kahn, D. <em>The Codebreakers: The Comprehensive History of Secret Communication</em>. Scribner, 1996.</li>
+        <li>Koblitz, N. <em>A Course in Number Theory and Cryptography</em>. Springer-Verlag, 1994.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
