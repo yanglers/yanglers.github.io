@@ -116,5 +116,64 @@
     <a href="mailto:ayiyang@stanford.edu">Email</a>
   </footer>
 
+
+  <canvas id="stream-bg"></canvas>
+  <script>
+    const canvas = document.getElementById('stream-bg');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const fragments = [
+      '你好', '一只羊', '毅', '智', 'ἀτλάς', 'eustress', 'shrub-lined',
+      '...', 'asymptotically', 'مرحبا', 'Привет', 'こんにちは', '안녕하세요',
+      'tenacity', 'wisdom', 'one sheep', 'pistachio latte', 'Harvard Bridge',
+      'atlás', 'Kendall Square', 'Newbury St', 'Red Line', 'NSO', 'A→B→C→D',
+      'East Brunswick', 'yanglers', 'atlas', '🐑', 'Fenway', 'Point72',
+      'curiosity', 'eustress', 'West Coast', 'B→?', 'what comes next',
+      'تلاش', 'सफ़र', 'παρά', '旅', 'voyage', 'Tatte', '지혜',
+    ];
+
+    const particles = fragments.map(text => ({
+      text,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.2 - 0.05,
+      size: 11 + Math.random() * 7,
+      opacity: 0.04 + Math.random() * 0.08,
+      fadeIn: Math.random(),
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const color = isDark ? '232, 232, 232' : '0, 0, 0';
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -200) p.x = canvas.width + 100;
+        if (p.x > canvas.width + 200) p.x = -100;
+        if (p.y < -50) p.y = canvas.height + 20;
+        if (p.y > canvas.height + 50) p.y = -20;
+
+        ctx.font = `${p.size}px "IBM Plex Mono", monospace`;
+        ctx.fillStyle = `rgba(${color}, ${p.opacity})`;
+        ctx.fillText(p.text, p.x, p.y);
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
 </body>
 </html>
