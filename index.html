@@ -74,6 +74,53 @@
     const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.06 });
     globe.add(new THREE.LineSegments(sphereWire, sphereMat));
 
+    const words = [
+      '你好', 'مرحبا', 'Привет', 'こんにちは', '안녕하세요',
+      'Bonjour', 'Hola', 'مرحبا', 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ', 'Olá',
+      'Γεια', 'שלום', 'สวัสดี', 'Xin chào', 'Merhaba',
+      'Hallå', 'Ciao', 'Hallo', 'नमस्ते', 'Sawubona'
+    ];
+
+    function makeTextSprite(text) {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 64;
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, 256, 64);
+      ctx.font = '28px IBM Plex Mono, monospace';
+      ctx.fillStyle = 'rgba(0, 118, 255, 0.7)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 128, 32);
+      const tex = new THREE.CanvasTexture(c);
+      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.0 });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(0.6, 0.15, 1);
+      return sprite;
+    }
+
+    const orbitGroup = new THREE.Group();
+    orbitGroup.rotation.x = 0.3;
+    orbitGroup.position.y = -0.5;
+    scene.add(orbitGroup);
+
+    const spriteData = words.map((word, i) => {
+      const sprite = makeTextSprite(word);
+      const angle = (i / words.length) * Math.PI * 2;
+      const radius = 1.05 + Math.random() * 0.3;
+      const tilt = (Math.random() - 0.5) * 1.2;
+      sprite.userData = { angle, radius, tilt, speed: 0.0003 + Math.random() * 0.0004 };
+      sprite.position.set(
+        Math.cos(angle) * radius,
+        tilt,
+        Math.sin(angle) * radius
+      );
+      orbitGroup.add(sprite);
+      return sprite;
+    });
+
+    // Fade sprites in slowly
+    let fadeProgress = 0;
+
     function latLonToVec3(lat, lon) {
       const phi = (90 - lat) * Math.PI / 180;
       const theta = (lon + 180) * Math.PI / 180;
@@ -115,6 +162,24 @@
     (function animate() {
       requestAnimationFrame(animate);
       globe.rotation.y += 0.002;
+
+      // Fade in text over ~3 seconds
+      if (fadeProgress < 1) fadeProgress += 0.002;
+
+      spriteData.forEach(sprite => {
+        sprite.userData.angle += sprite.userData.speed;
+        const { angle, radius, tilt } = sprite.userData;
+        sprite.position.set(
+          Math.cos(angle) * radius,
+          tilt,
+          Math.sin(angle) * radius
+        );
+        // Fade based on z position (front = visible, back = hidden)
+        const z = sprite.position.z;
+        const depthFade = (z + radius) / (2 * radius);
+        sprite.material.opacity = depthFade * 0.75 * fadeProgress;
+      });
+
       renderer.render(scene, camera);
     })();
   </script>
