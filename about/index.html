@@ -125,7 +125,7 @@
   <script>
     const canvas = document.getElementById('stream-bg');
     const ctx = canvas.getContext('2d');
-    
+
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -173,8 +173,8 @@
 
     const particles = fragments.map(text => ({
       text,
-      x: Math.random() * window.innerWidth * 0.6,
-      y: Math.random() * window.innerHeight * 0.6,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.2 - 0.05,
       size: 11 + Math.random() * 7,
