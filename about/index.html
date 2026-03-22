@@ -141,8 +141,8 @@
 
     const particles = fragments.map(text => ({
       text,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: Math.random() * window.innerWidth * 0.6,
+      y: Math.random() * window.innerHeight * 0.6,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.2 - 0.05,
       size: 11 + Math.random() * 7,
