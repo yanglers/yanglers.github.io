@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wrong Contract — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2025 · essay</p>
+    <h1>The Wrong Contract</h1>
+
+    <p>
+      When CAR-T therapy was approved for relapsed or refractory diffuse large B-cell lymphoma,
+      it represented something genuinely new in oncology: a single infusion that achieves complete
+      remission in a substantial fraction of patients who had exhausted every other option. The
+      therapy costs roughly $450,000 per patient. The five-year survival data suggest that for
+      patients who respond durably, this is not an expensive treatment for a chronic condition.
+      It is a cure.
+    </p>
+
+    <p>
+      The question of how to pay for it is correspondingly novel. Fee-for-service payment was
+      designed for a world where treatment is ongoing and costs accrue incrementally. It has no
+      natural mechanism for a one-time intervention whose value materializes over a decade. The
+      policy response has been to develop value-based payment contracts, which link manufacturer
+      revenue to clinical outcomes, distribute financial risk between payers and manufacturers,
+      and theoretically ensure that high prices are justified by durable benefit. These contracts
+      are the right idea. But they are being written between the wrong parties, and that mismatch
+      explains why access to CAR-T therapy in the United States remains far more restricted than
+      clinical need would suggest.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The standard account of the CAR-T access problem focuses on the payer-manufacturer
+      relationship. Payers face a large upfront cost with uncertain long-term payoff. Manufacturers
+      know more about the therapy's likely durability than payers do. The proposed solution is
+      an outcomes-based contract: the manufacturer charges full price but refunds a portion if
+      the patient does not achieve or maintain remission at some defined timepoint. Risk is shared,
+      information asymmetry is addressed, and the manufacturer has an incentive to develop
+      therapies that actually work in the long run.
+    </p>
+
+    <p>
+      The logic is sound. The problem is that this contract does not touch the party that is
+      actually restricting access. In the United States, CAR-T therapy is predominantly
+      administered as an inpatient procedure. Hospitals serving as authorized treatment centers
+      bear the cost of apheresis, lymphodepletion, the infusion itself, and weeks of post-infusion
+      monitoring, plus the full expense of managing cytokine release syndrome and neurotoxicity
+      in a small but significant fraction of patients. Under Medicare's inpatient prospective
+      payment system, all of this is reimbursed via MS-DRG 018, a single bundled payment finalized
+      at roughly $274,000 for fiscal year 2025.
+    </p>
+
+    <p>
+      The total cost of care for a Medicare CAR-T patient routinely exceeds $500,000, not
+      counting the therapy itself. New Technology Add-on Payments and outlier payments partially
+      close this gap, but the NTAP is capped, temporary, and subject to eligibility criteria that
+      become harder to meet as more products enter the market. Outlier payments cover only 80%
+      of costs above a fixed-loss threshold that rose sharply in recent years. The consequence
+      is that hospitals administering CAR-T under Medicare inpatient rules lose money on the
+      majority of cases. In fiscal year 2023, 66% of MS-DRG 018 cases qualified for outlier
+      payments, a statistic that reflects not exceptional circumstances but routine inadequacy
+      of the base rate.
+    </p>
+
+    <p>
+      This financial pressure is not a minor friction. It determines which hospitals invest in
+      CAR-T capacity and which do not, which patients get referred to treatment centers and
+      which receive palliative care instead, and how many patients can be treated before a
+      hospital's CAR-T program becomes a financial liability its administration will not sustain.
+      The provider-level access barrier operates independently of formal coverage policy.
+      A payer can cover CAR-T comprehensively while the hospital that would administer it faces
+      predictable losses on every Medicare case.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      A well-designed outcomes-based contract between a payer and a manufacturer does nothing
+      to address this. The rebate flows from manufacturer to payer. The hospital's cost structure
+      is unchanged. The MS-DRG payment is unchanged. The financial calculus that leads hospital
+      administrations to limit CAR-T capacity or restrict patient volume is unchanged. The
+      contract is solving a real problem, just not the one that is binding on access.
+    </p>
+
+    <p>
+      The contrast with Medicare's outpatient payment system makes this visible. Under Medicare
+      Part B, drugs administered in outpatient settings are reimbursed at Average Sales Price
+      plus 6%. For a $450,000 CAR-T product, this generates roughly $27,000 in margin above
+      acquisition cost before accounting for administration expenses, which are reimbursed
+      separately under the Outpatient Prospective Payment System. The financial incentive to
+      shift CAR-T administration outpatient is substantial, and some programs have done so as
+      CAR-T toxicity management has improved. But the inpatient setting remains clinically
+      necessary for many patients, and the inpatient payment problem remains unsolved.
+    </p>
+
+    <p>
+      The policy literature has noted this disparity without fully confronting its implications
+      for how value-based payment should be structured. Most VBP frameworks in this space are
+      designed as bilateral contracts: manufacturer agrees to rebate payer under specified
+      conditions. Adding the provider as a third party to this arrangement would complicate
+      contract design significantly. But there is a stronger case that the provider problem
+      requires a separate policy fix rather than inclusion in a three-party VBP contract,
+      specifically reform of the MS-DRG 018 base rate and NTAP structure. Continuing to
+      design bilateral payer-manufacturer contracts while leaving the DRG inadequacy unaddressed
+      is a bit like negotiating the price of a drug that the hospital cannot afford to administer.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The second structural obstacle to value-based payment is the Medicaid Best Price rule,
+      and it creates a paradox that illustrates how a regulation designed to protect one
+      population can harm another. The Medicaid Drug Rebate Program requires manufacturers
+      to give Medicaid the lowest price available to any commercial customer. This is the
+      Best Price requirement. Its intent is to ensure that Medicaid, which serves low-income
+      populations and has limited negotiating leverage, benefits from competitive pricing
+      achieved elsewhere in the market.
+    </p>
+
+    <p>
+      In a market with stable, transparent prices, this rule works as intended. In a market
+      where manufacturers offer outcomes-contingent rebates to individual commercial payers,
+      it creates a problem. Suppose a manufacturer agrees to refund 30% of the therapy cost
+      if a specific patient does not achieve sustained remission at twelve months. For that
+      patient, the effective price paid by the payer drops to 70% of list. Under a strict
+      reading of the Best Price rule, this sets the manufacturer's Best Price at 70% of list,
+      and Medicaid is owed the difference on every unit sold since the price was set.
+    </p>
+
+    <p>
+      The implication is that a manufacturer who enters a meaningful outcomes-based contract
+      with a commercial payer risks triggering a Medicaid liability that could exceed the
+      value of the contract many times over. This is not a theoretical concern. For rare
+      therapies with small patient populations, a single large rebate triggered by treatment
+      failure can reset Best Price in a way that costs more than the original sale. The
+      rational response for manufacturers is to avoid substantial outcome-contingent rebates
+      in commercial markets, which is precisely the opposite of the policy goal.
+    </p>
+
+    <p>
+      CMS has issued guidance attempting to create safe harbors for VBP arrangements, allowing
+      manufacturers to report multiple Best Prices corresponding to different contract
+      structures. This is an improvement, but stakeholders report persistent ambiguity about
+      which arrangements qualify and how rebates should be reported when outcomes are measured
+      across a multi-year contract. The consequence is that manufacturers remain cautious,
+      and the most meaningful OBCs, those with large rebates tied to long-term outcomes, are
+      rare. The contracts that actually exist tend to use modest rebates tied to short-term
+      endpoints, which limits the degree to which they genuinely align payment with durable value.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      These two problems, provider financial risk and Best Price constraints, have a common
+      structure. Both are cases where a policy designed for a world of ongoing, incremental
+      treatment interacts badly with a world of one-time curative intervention. The DRG system
+      was designed to bundle the costs of an episode of care around a clinical event; it works
+      tolerably for hip replacements and pneumonia, where episode costs are predictable and
+      technology changes slowly. It was not designed for a therapy whose acquisition cost alone
+      exceeds the base DRG rate by more than 50%. The Best Price rule was designed to protect
+      Medicaid from being disadvantaged relative to commercial buyers; it works tolerably
+      when prices are fixed and discounts are uniform. It was not designed for outcome-contingent
+      pricing where the effective price varies by patient based on treatment success.
+    </p>
+
+    <p>
+      The economic modeling of VBP frameworks for CAR-T tends to confirm what these structural
+      arguments suggest. Outcomes-based contracts improve cost-effectiveness ratios in simulation
+      when they work as designed: when tracking is reliable, administrative costs are modest,
+      and rebates are actually paid when outcomes are not met. The model is sensitive to all
+      three of these assumptions. When tracking success falls below 50%, which is plausible
+      given patient mobility across insurance plans and the absence of robust long-term registry
+      infrastructure, the OBC advantage over a simple status quo payment erodes substantially.
+      When administrative costs are high, simple installment payments that smooth budget impact
+      without linking to outcomes may be more efficient in expectation. The theoretical appeal
+      of OBCs is real; their practical advantage depends on implementation conditions that do
+      not currently exist at scale.
+    </p>
+
+    <p>
+      Installment payments address a different problem, the immediate budget shock of a
+      $450,000 acquisition cost, without addressing value alignment. A payer that spreads
+      this cost over five annual installments faces a more manageable cash flow but the same
+      uncertainty about whether the therapy will remain effective over that period. For large
+      commercial payers with stable enrollment, installments provide limited benefit since
+      they can manage the cash flow internally. For smaller payers and Medicaid programs with
+      high patient turnover, installments create a different version of the Best Price problem:
+      the first installment may be treated as the full price, setting an artificially low
+      Best Price before the manufacturer has received adequate compensation.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The argument for a hybrid model, where installment payments are contingent on continued
+      clinical response, is in some ways the most coherent response to the structure of the
+      problem. It aligns payment timing with benefit accrual, distributes financial risk
+      across years, and creates an outcome-linked mechanism that is easier to administer than
+      a lump-sum rebate triggered by a binary endpoint. The patient either remains in remission
+      or does not; subsequent payments either proceed or do not. There is no large retroactive
+      adjustment of the kind that triggers Best Price concerns.
+    </p>
+
+    <p>
+      In simulation, performance-based annuities compare favorably to both status quo payment
+      and simple installments on cost-effectiveness grounds, while offering better budget
+      impact management than an upfront OBC rebate. The practical barriers are real but
+      different in character from those facing lump-sum OBCs. Patient tracking is still
+      required, but the relevant question is simpler: is this patient still alive and in
+      remission? This is more tractable than the attributable outcome measurements that
+      some OBC designs require. The patient mobility problem remains, but its consequences
+      are different: a patient who switches insurance plans mid-installment creates
+      administrative complexity rather than a large contested rebate.
+    </p>
+
+    <p>
+      None of this resolves the provider financial risk problem, which sits outside the
+      payer-manufacturer contract structure entirely. The strongest version of the argument
+      here is that reform of MS-DRG 018 and the NTAP structure is a prerequisite for
+      value-based payment to achieve its access goals, not a complement to it. A hospital
+      that loses money on every Medicare inpatient CAR-T case has no capacity to participate
+      meaningfully in a VBP framework, however well-designed, because the VBP is negotiated
+      between the payer and the manufacturer while the hospital bears costs that neither
+      contract party is absorbing. Addressing this requires CMS action on inpatient payment
+      rates, not better contract design between manufacturers and payers.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The broader implication is that the VBP literature for high-cost curative therapies
+      has somewhat inverted the causal priority of these problems. Most of the design
+      attention goes to payer-manufacturer contracts because that is where the economics
+      literature on value-based pricing applies most cleanly, and because manufacturers and
+      payers are the parties with the negotiating infrastructure to implement complex contracts.
+      But the binding constraint on access, for Medicare patients in particular, is not the
+      absence of a good payer-manufacturer contract. It is a DRG that makes hospitals lose
+      money administering the therapy and a Best Price rule that makes manufacturers cautious
+      about the contracts that would most credibly align incentives.
+    </p>
+
+    <p>
+      Fixing the first problem requires a regulatory intervention that CMS has so far made
+      incrementally and inadequately. Fixing the second requires either legislative reform
+      of the Best Price calculation for outcome-contingent arrangements or a sufficiently
+      clear safe harbor that manufacturers are willing to offer meaningful rebates without
+      liability exposure. Both are policy problems, not contract design problems, and
+      framing them as the latter has allowed the field to generate substantial modeling
+      literature on VBP frameworks whose practical implementation is blocked by obstacles
+      that better contract design cannot address.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>O'Day K, et al. "Managing the Challenges of Paying for Gene Therapy: Strategies for Market Action and Policy Reform." ICER and MIT NEWDIGS White Paper, April 2024.</li>
+        <li>Advancing Value-Based Payment for Transformative Therapies. Duke-Margolis Center for Health Policy, May 2021.</li>
+        <li>ASTCT Summary of FY 2025 IPPS Final Rule Responses from CMS, August 2024.</li>
+        <li>Shah N, et al. "Medicare Utilization and Cost Trends for CAR T Cell Therapies Across Settings of Care in the Treatment of Diffuse Large B-Cell Lymphoma." <em>Journal of Managed Care and Specialty Pharmacy</em> 30(7), 2024.</li>
+        <li>NPC Comments on CMS Proposed Rule on Medicaid Best Price, Value-Based Purchasing. National Pharmaceutical Council.</li>
+        <li>Ellis K. "Cost-effectiveness analyses of chimeric antigen receptor T-cell therapies for relapsed or refractory diffuse large B-cell lymphoma." PhD Thesis, University of Toronto, 2021.</li>
+        <li>Bach D, et al. "Economic Burden of Neurologic Toxicities Associated with Treatment of Patients with Relapsed or Refractory Diffuse Large B-Cell Lymphoma in the United States." <em>American Health and Drug Benefits</em> 16(7), 2023.</li>
+        <li>Gartenberg A, et al. "Value-Based Pricing for Emerging Gene Therapies: The Economic Case for a Higher Cost-Effectiveness Threshold." <em>Journal of Managed Care and Specialty Pharmacy</em> 25(3), 2019.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>

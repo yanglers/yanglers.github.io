@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Agent Problem — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2025 · essay</p>
+    <h1>The Agent Problem</h1>
+
+    <p>
+      A pharmacy benefit manager serves two principals simultaneously. On one side are the
+      employers and health plans that hire the PBM to administer their drug benefit, negotiate
+      rebates with manufacturers, and design formularies. On the other side are the pharmaceutical
+      manufacturers whose drugs must secure formulary placement to reach patients. The PBM
+      manages this relationship for a fee, but its compensation is also tied, in ways often
+      not fully transparent to either principal, to the rebates it extracts and retains. This
+      makes the PBM neither a pure agent of the payer nor a pure agent of the manufacturer.
+      It is something in between, and that ambiguity is the central structural fact of the
+      US pharmaceutical distribution system.
+    </p>
+
+    <p>
+      The conventional critique of PBMs focuses on opacity and self-dealing: that PBMs retain
+      rebates rather than passing them to payers, that they favor higher-list-price drugs
+      because larger rebates generate more retained revenue, that their ownership of specialty
+      pharmacies creates conflicts in dispensing decisions. These complaints are well-documented
+      empirically. But the theoretical structure underlying them is more interesting than the
+      conduct claims alone suggest, because it explains why the problem persists even when
+      contracts are disclosed and fiduciary duties are nominally enforced.
+    </p>
+
+    <p>
+      The common agency literature in economics describes what happens when a single agent
+      contracts with multiple principals who each want to influence the agent's behavior.
+      A key prediction of this literature is that each principal free-rides on the incentives
+      offered by the others. If insurer A offers the PBM strong performance incentives to
+      minimize net drug costs, and insurer B does the same, each insurer bears the full cost
+      of its incentive while capturing only part of the resulting benefit, since the PBM serves
+      both and its improved performance accrues to each. The rational response for each insurer
+      is to offer weaker incentives than would be optimal if it were the PBM's only client.
+      The equilibrium is a collective underinvestment in PBM performance incentives, which
+      helps explain why fee-for-service contracting with PBMs has proven durable despite
+      well-understood inefficiencies.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The vertical integration of a PBM with a major insurer is, from this theoretical
+      perspective, a direct solution to the common agency problem. When the PBM and insurer
+      are the same firm, the free-riding problem disappears: the integrated entity captures
+      the full benefit of its own performance incentives. The conflict of interest between
+      the PBM's retained rebates and the insurer's interest in lower net costs is resolved
+      by collapsing them into a single objective function. This is the efficiency argument
+      for PBM-insurer integration, and it is coherent as far as it goes.
+    </p>
+
+    <p>
+      The problem is that resolving the common agency problem inside the integrated firm
+      creates a different and arguably worse problem outside it. A standalone PBM that
+      serves many clients has limited ability to credibly threaten to exclude a major drug
+      from its formulary: exclusion would disadvantage all its clients simultaneously, many
+      of whom might push back, and the PBM's leverage against any single manufacturer is
+      therefore bounded. An integrated PBM-insurer has a more credible exclusion threat
+      because its insurance arm can absorb the downstream consequences of exclusion more
+      directly, steering affected patients toward alternative therapies within the integrated
+      network or accepting the enrollment effects of a narrower formulary in exchange for
+      higher rebates.
+    </p>
+
+    <p>
+      The mechanism here runs through what bargaining theory calls the disagreement payoff:
+      the value a party receives if negotiations fail. When a standalone PBM and a manufacturer
+      fail to reach agreement on a drug's formulary placement, the PBM must explain to its
+      many clients why a major therapy is unavailable. This is costly, and the cost limits
+      the PBM's willingness to walk away. When an integrated PBM-insurer fails to reach
+      agreement with a manufacturer, its insurance arm has already priced the formulary,
+      prepared alternative pathways for affected patients, and potentially benefits from the
+      additional medical services its provider affiliates will deliver to patients who switch
+      therapies. The integrated firm's disagreement payoff is higher, its exclusion threat is
+      more credible, and manufacturers facing this negotiating position must offer larger rebates
+      to avoid the risk.
+    </p>
+
+    <p>
+      This is a legitimate source of buyer power, and lower net acquisition costs for drugs
+      are, in principle, a benefit. The question is who captures the difference between the
+      old net price and the new one. If the integrated firm passes the rebate savings through
+      to employers and patients in the form of lower premiums or reduced cost-sharing, the
+      consolidation has achieved what its proponents claim. If the integrated firm retains the
+      savings as profit while maintaining premium levels, the efficiency argument dissolves
+      into a transfer from manufacturers to the integrated entity, with no benefit to patients.
+      The pass-through rate is not determined by the logic of integration; it depends on
+      downstream competition in the insurance market. In markets with two or three dominant
+      insurer-PBM combinations, the competitive pressure to pass savings through is limited.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The more structurally novel consequence of PBM-insurer integration concerns its effect
+      on rival insurers who remain dependent on the integrated firm's PBM services. Most
+      regional employers and smaller health plans do not have the scale to operate their own
+      PBM or to negotiate directly with manufacturers. They purchase PBM services from one
+      of the large integrated entities, which means their formulary design and rebate
+      negotiations are managed by a firm that also owns a competing health plan.
+    </p>
+
+    <p>
+      Economic theory predicts that this creates an incentive for input foreclosure. The
+      integrated PBM, when designing formulary-contingent rebate contracts with manufacturers,
+      internalizes the effect that those contracts have on its own insurance arm's profitability.
+      If a particular formulary arrangement attracts favorable manufacturer rebates but also
+      makes the PBM's rival health plan clients more cost-competitive, the integrated firm
+      has reason to offer those clients less favorable arrangements, higher retained rebate
+      rates, less aggressive negotiating on their behalf, or formulary designs that favor
+      the integrated insurer's own products. The integrated PBM serves two principals again,
+      but now one of them is itself.
+    </p>
+
+    <p>
+      This form of foreclosure is subtle and hard to detect directly. The rival insurer cannot
+      easily observe whether the rebates it receives on a given drug represent the PBM's best
+      effort or a deliberately softened negotiating outcome designed to preserve the integrated
+      insurer's competitive advantage. Contract terms are complex and multidimensional.
+      The PBM can attribute any shortfall in rebate performance to market conditions or
+      manufacturer intransigence. The structural incentive to disadvantage rivals through
+      the PBM relationship exists regardless of whether it is acted upon in any particular
+      negotiation, and its mere existence changes the competitive dynamics of the insurance
+      market in ways that price analysis alone will not capture.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      There is a regulatory wrinkle here that has received insufficient theoretical attention.
+      The Medical Loss Ratio requirement, established under the Affordable Care Act, requires
+      that insurers spend at least 80% to 85% of premium revenue on clinical services and
+      quality improvement, with the remainder available for administrative costs and profit.
+      The intent is to limit insurer profitability by constraining the share of premium dollars
+      that can be retained as overhead or returned to shareholders.
+    </p>
+
+    <p>
+      Vertical integration creates a straightforward mechanism for circumventing this constraint.
+      An integrated insurer can make internal payments to its affiliated PBM or pharmacy
+      subsidiary for services rendered. If these payments are classified as clinical expenditures
+      or quality-related costs, they count toward the MLR requirement, inflating the numerator
+      without delivering additional value to patients. The insurer meets its MLR threshold
+      through what is effectively a transfer to itself, while retaining more of the premium
+      as profit within the corporate family than the MLR rule intends to permit.
+    </p>
+
+    <p>
+      This is not a marginal or theoretical concern. The gap between what a vertically
+      integrated firm charges its insurance arm for PBM or pharmacy services and what
+      those services would cost on the open market is, by definition, not observable
+      to regulators who rely on the insurer's internal accounting. Transfer pricing
+      between affiliates is audited in standard corporate contexts, but the MLR framework
+      was designed for an era when insurers purchased most services at arm's length.
+      The standard tools for detecting MLR manipulation assume that high administrative
+      costs reflect genuinely excessive overhead, not strategic transfers to affiliated
+      entities that are not required to disclose their cost structures.
+    </p>
+
+    <p>
+      The theoretical prediction here is specific: vertical integration that captures
+      PBM and pharmacy functions within an insurance holding company weakens the MLR
+      constraint without visibly violating it. The insurer reports spending that satisfies
+      the threshold; the spending flows to affiliates rather than to clinical services
+      for patients; patients see no improvement in benefits and no reduction in premiums.
+      The efficiency argument for integration, which rests on aligning incentives and
+      reducing administrative friction, does not obviously explain why the savings from
+      these efficiencies are not reflected in lower premiums or richer benefits. MLR
+      circumvention offers an alternative explanation.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The horizontal consolidation of PBMs compounds these dynamics. The top three
+      PBMs process the large majority of US prescription drug claims, and all three
+      are vertically integrated with major insurers and pharmacy chains. This means
+      that the market for PBM services, which smaller health plans and employers depend
+      on, is simultaneously highly concentrated and dominated by entities with structural
+      conflicts of interest relative to their clients.
+    </p>
+
+    <p>
+      High concentration in a market with complex, multidimensional products creates
+      conditions for tacit collusion that are qualitatively different from those in
+      simpler oligopoly settings. The relevant product here is not a commodity whose
+      price can be observed and matched. It is a bundle of formulary management,
+      rebate negotiation, specialty pharmacy, and utilization management services
+      whose quality is difficult for clients to assess and whose pricing is embedded
+      in confidential contracts. Mutual forbearance in such a market does not look
+      like parallel pricing on a visible product. It looks like a collective absence
+      of aggressive competition for clients on the dimensions that clients care most
+      about, namely pass-through rates, net drug costs, and formulary breadth.
+    </p>
+
+    <p>
+      The multimarket contact literature in industrial organization provides a theoretical
+      basis for this concern. When the same set of firms compete against each other across
+      multiple markets, each firm's incentive to compete aggressively in any single market
+      is dampened by the knowledge that aggression could trigger retaliation across all
+      the others. The three large integrated PBM-insurer-pharmacy combinations compete
+      against each other not just in the PBM services market but simultaneously in insurance
+      markets across most major metropolitan areas, in specialty pharmacy distribution,
+      and in Medicare Part D plan design. The scope for mutual forbearance across these
+      dimensions is substantial. Theoretical models predict that this kind of multimarket
+      contact leads to higher prices and lower quality across affected markets, and there
+      is empirical evidence consistent with this prediction in Medicare Advantage markets
+      where the same firms compete in many geographic areas simultaneously.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The implications for pharmaceutical access run through both the formulary channel
+      and the provider network channel. On the formulary side, the theoretical concern
+      is not that the integrated PBM will categorically exclude effective drugs, but that
+      its formulary decisions will reflect a mix of clinical evidence, manufacturer rebates,
+      and strategic considerations related to the integrated firm's downstream interests
+      that are not visible to the patients and physicians affected. A drug that would
+      receive favorable formulary placement under a competitive PBM market might receive
+      less favorable placement if the manufacturer has refused to offer rebates large
+      enough to compensate for the integrated firm's increased leverage, or if the drug
+      competes with a therapy associated with the integrated network's owned specialty
+      pharmacy or provider affiliates.
+    </p>
+
+    <p>
+      On the provider network side, vertical integration between insurers and hospital
+      systems or physician groups creates analogous steering incentives. The integrated
+      payer has financial reasons to direct patients toward its owned providers, and its
+      network design choices can create access barriers to non-affiliated providers that
+      are not formally exclusionary but that impose significant friction on patients
+      seeking non-integrated care. For pharmaceutical access specifically, this matters
+      when drug administration occurs in provider settings, as with infused therapies
+      and increasingly with complex oral regimens requiring clinical monitoring. An
+      integrated system with owned specialty pharmacies, infusion centers, and oncology
+      practices has the ability to manage the entire care pathway in ways that favor
+      its own economic interests, with formulary and referral decisions reinforcing each other.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The theoretical literature on consolidation generally frames the policy question
+      as a trade-off between efficiency gains and market power risks, leaving the
+      resolution as an empirical matter to be determined case by case. This framing
+      is appropriate for mergers that combine previously independent firms in markets
+      where the efficiency and power effects are genuinely uncertain. It is less
+      well-suited to evaluating a market structure that has already consolidated
+      substantially and where the theoretical mechanisms of harm are reasonably
+      well-specified.
+    </p>
+
+    <p>
+      The PBM market has three dominant integrated players. The common agency inefficiency
+      that motivated consolidation has been largely resolved within these firms at the
+      cost of creating structural conflicts of interest in their PBM-to-client relationships.
+      The MLR constraint has been weakened by the opacity of intra-corporate transfers.
+      Multimarket contact among the three large integrated firms creates conditions
+      conducive to tacit collusion across insurance, PBM, and pharmacy markets simultaneously.
+      These are not speculative harms requiring further study. They are the predicted
+      equilibrium consequences of the market structure that currently exists.
+    </p>
+
+    <p>
+      The regulatory response has focused primarily on transparency requirements: mandating
+      disclosure of rebate pass-through rates, requiring PBMs to report spread pricing,
+      strengthening fiduciary standards in PBM-client relationships. These measures address
+      the conduct symptoms without changing the structural incentives that generate them.
+      A PBM that is required to disclose its retained rebate rate is still a PBM with an
+      incentive to maximize retained rebates. An integrated PBM-insurer that must report
+      intra-corporate transfers in more detail is still an integrated entity with the
+      ability to structure those transfers in ways that satisfy reporting requirements
+      while preserving the underlying advantage.
+    </p>
+
+    <p>
+      The structural argument suggests a different priority ordering. The common agency
+      problem that made standalone PBMs inefficient was real, but it could have been
+      addressed by requiring full rebate pass-through rather than by permitting vertical
+      integration that resolves the agency problem while creating foreclosure risks.
+      The MLR circumvention concern could be addressed by excluding intra-corporate
+      transfers to non-clinical affiliates from the MLR numerator. The multimarket
+      contact concern is harder to address without structural remedies, which is
+      precisely why it receives less regulatory attention despite being, theoretically,
+      the most durable source of the problem.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Polymeneas G, et al. "Disadvantaging Rivals: Vertical Integration in the Pharmaceutical Market." NBER Working Paper 31536, 2023.</li>
+        <li>Lin H, McCarthy IM, Richards MR. "Owning the Agent: Hospital Influence on Physician Behaviors." NBER Working Paper 28859, 2021.</li>
+        <li>Vatter B. "Vertical Integration and Plan Design in Healthcare Markets," working paper, 2024.</li>
+        <li>Noton C, Vatter B. "Vertical Integration between Hospitals and Insurers," working paper, 2019.</li>
+        <li>Pelech D, Hayford T. "Common Agent or Double Agent? Pharmacy Benefit Managers in the Prescription Drug Market." Boston University working paper, 2021.</li>
+        <li>Bernstein J, Newhouse JP. "Pharmacy Benefit Managers and Vertical Relationships in Drug Supply." NBER Working Paper 29959, 2022.</li>
+        <li>Ho K, et al. "Contracting over Rebates: Formulary Design and Pharmaceutical Spending." NBER Working Paper 32790, 2024.</li>
+        <li>Schmitt M. "Multimarket Contact in Health Insurance: Evidence from Medicare Advantage." NBER Working Paper 24486, 2018.</li>
+        <li>Gaynor M. "What Do We Know About Competition and Quality in Health Care Markets?" NBER Working Paper 12301, 2006.</li>
+        <li>Rogerson W. "Modelling and Predicting the Competitive Effects of Vertical Mergers: The Bargaining Leverage Over Rivals Effect." FTC Working Paper, 2020.</li>
+        <li>Berndt ER, et al. "Economics of the Pharmaceutical Industry." <em>Journal of Economic Literature</em>, 2019.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
