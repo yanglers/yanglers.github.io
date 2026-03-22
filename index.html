@@ -94,7 +94,7 @@
       const tex = new THREE.CanvasTexture(c);
       const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.0 });
       const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(0.4, 0.1, 1);
+      sprite.scale.set(0.6, 0.15, 1);
       return sprite;
     }
 
@@ -107,7 +107,7 @@
       const sprite = makeTextSprite(word);
       const angle = (i / words.length) * Math.PI * 2;
       const radius = 1.05 + Math.random() * 0.3;
-      const tilt = (Math.random() - 0.5) * 1.2;
+      const tilt = (Math.random() - 0.5) * 1.2 + 0.4;
       sprite.userData = { angle, radius, tilt, speed: 0.0003 + Math.random() * 0.0004 };
       sprite.position.set(
         Math.cos(angle) * radius,
