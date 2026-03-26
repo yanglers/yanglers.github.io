@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompting for Bioactivity — Austin Yang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/theme.js"></script>
+  <style>
+    .essay-meta {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-bottom: 2rem;
+    }
+
+    .essay-body {
+      max-width: 640px;
+    }
+
+    .essay-body p {
+      line-height: 1.8;
+      margin-bottom: 1.2em;
+    }
+
+    .section-break {
+      border: none;
+      border-top: 1px solid var(--secondary-color);
+      margin: 2.5rem 0;
+      opacity: 0.3;
+    }
+
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--secondary-color);
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .footnotes ol {
+      padding-left: 1.25rem;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><a href="/">Austin Yang</a></h1>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/writing/">Writing</a></li>
+    </ul>
+  </nav>
+
+  <main class="essay-body">
+    <p class="essay-meta">2024 · note</p>
+    <h1>Prompting for Bioactivity</h1>
+
+    <p>
+      Molecular language models trained on SMILES strings can generate chemically
+      valid, structurally novel molecules at scale. The open question is how to direct
+      that generation toward molecules with desired properties without retraining the
+      model for each target. The standard approach is iterative: generate candidates,
+      score them, fine-tune the model on high-scoring examples, repeat. This works,
+      but it is expensive — both computationally and in terms of time — and it produces
+      a separate model for every target, which does not scale well when the target space
+      is large or when resources are limited.
+    </p>
+
+    <p>
+      The approach we explore here is different. Rather than updating the model, we
+      ask whether the prompt alone can do the steering. The hypothesis is that a
+      pre-trained generative transformer, prompted with molecules whose structural
+      similarity to other compounds is strongly predictive of those compounds'
+      bioactivity, will generate candidates that are, on average, more bioactive
+      than molecules prompted randomly or from the full assay. If this holds, the
+      same base model can be redirected to any target by changing only the input,
+      with no retraining required.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The theoretical motivation comes from the Similarity Property Principle, a
+      well-established empirical regularity in medicinal chemistry: structurally
+      similar molecules tend to share biological activity. This is the basis for
+      analoguing campaigns in drug discovery, where chemists synthesize variants of
+      a known active compound. The question is whether the principle can be operationalized
+      computationally to identify, within a given assay, which specific molecules are
+      the best structural anchors for generative exploration.
+    </p>
+
+    <p>
+      Standard approaches to this question ask: which molecules in the assay have the
+      highest measured bioactivity? The prompt would then consist of the top actives.
+      This is reasonable, but it conflates two different things. A molecule with high
+      measured bioactivity is not necessarily a molecule whose neighborhood in chemical
+      space is enriched for bioactivity. A potent compound might be structurally unique,
+      sitting in a sparse region of chemical space where small perturbations produce
+      inactive molecules. What we actually want for prompt-based generation are molecules
+      whose structural context is informative about bioactivity across the assay: molecules
+      such that knowing similarity to them predicts the activity of other compounds.
+    </p>
+
+    <p>
+      The distinction matters because a generative model prompted with a molecule will
+      explore the neighborhood around that molecule in chemical space. If the neighborhood
+      is bioactivity-enriched, the generated candidates are more likely to be active.
+      If the neighborhood is sparse or unstructured with respect to activity, the prompt
+      provides weak guidance regardless of the activity of the seed molecule itself.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The pipeline identifies these structurally informative molecules using a Random
+      Forest regressor trained on pairwise molecular similarity. Given a ChEMBL assay
+      of n molecules against a target of interest, we compute an n×n Tanimoto similarity
+      matrix using Morgan fingerprints, where entry (i, j) represents the fingerprint
+      similarity between molecules i and j. Each row of this matrix becomes a feature
+      vector for molecule i, and the target is the vector of measured bioactivities
+      (log-transformed Kd or IC50 values).
+    </p>
+
+    <p>
+      A Random Forest regressor trained on this representation learns which molecules'
+      similarity profiles are predictive of bioactivity. Feature importance analysis
+      on the fitted model produces Gini importance scores for each molecule, reflecting
+      how much variance in bioactivity the model attributes to similarity to that
+      molecule across all splitting decisions. The top-scoring molecules are the ones
+      whose structural neighborhood is most informative about activity in the assay.
+      These are the prompt molecules.
+    </p>
+
+    <p>
+      This framing has a specific advantage over selecting by raw bioactivity. It is
+      explicitly relational: it asks not "how active is this molecule?" but "how
+      predictive is this molecule's structural context for activity across the assay?"
+      A molecule can rank highly on this criterion while having moderate measured
+      activity, if its neighbors cluster strongly by activity level. Conversely, a
+      highly active but structurally isolated molecule would rank poorly, because
+      similarity to it does not carry information about the activity of other compounds.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The case study target is CBL-B, an E3 ubiquitin ligase involved in the
+      downregulation of T cell receptor signaling. CBL-B inhibition is a target of
+      interest in immuno-oncology: blocking it can sustain T cell activation and
+      enhance anti-tumor immunity. We obtained two independent ChEMBL assays for
+      CBL-B, fit separate Random Forest models to each (Model 1 and Model 2), and
+      used the top-importance molecules from Model 1 as prompts to a pre-trained
+      GPT to generate novel SMILES candidates. Generated structures were filtered
+      for chemical validity using RDKit.
+    </p>
+
+    <p>
+      The evaluation design uses cross-assay prediction as a check against overfitting.
+      Model 1 was trained on Assay 1 and used to select prompt molecules; the generated
+      candidates were then scored by both Model 1 and Model 2 independently. Comparing
+      the average predicted bioactivity of generated candidates against the average
+      measured bioactivity of the original assay molecules under both models tests
+      whether the improvement generalizes beyond the model used to select the prompts.
+    </p>
+
+    <p>
+      The generated candidates score higher than the Assay 1 baseline under Model 1,
+      with a p-value of 1.46 × 10⁻³⁵. They also score higher than the Assay 2
+      baseline under Model 2, and higher than the Model 2 predictions for the original
+      Assay 1 molecules, both with p-values below 10⁻³⁰⁰. The cross-assay result is
+      the more meaningful of these: the fact that candidates selected using Model 1
+      score higher than the original assay molecules under Model 2, which was trained
+      on an entirely different set of measurements, suggests the improvement is not
+      an artifact of the selection model. The candidates occupy a region of chemical
+      space that a second independent bioactivity model also regards as favorable.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      Several limitations are worth stating directly. The bioactivity predictions are
+      model-based, not experimentally measured. The validation chain is: Random Forest
+      trained on assay data, used to score generated molecules, compared against the
+      same assay data. A candidate that scores well under this pipeline may still fail
+      in a binding assay or a cell-based assay, for reasons that neither the fingerprint
+      similarity features nor the Random Forest model captures. Pharmacokinetic
+      properties, synthetic accessibility, and off-target effects are not considered
+      at any stage of the current pipeline.
+    </p>
+
+    <p>
+      The cross-assay validation partially addresses the circularity concern, but
+      both assays measure the same target, so they are not fully independent sources
+      of evidence. A more stringent test would involve generating candidates, having
+      them synthesized, and measuring their activity experimentally. The p-values
+      reported here reflect a statistical comparison within the space of model
+      predictions, not an empirical claim about in vitro or in vivo activity.
+    </p>
+
+    <p>
+      The circular risk in feature importance is also worth noting. The Gini importance
+      score for molecule i reflects how much the Random Forest uses similarity to i
+      when predicting bioactivity in the training assay. High-importance molecules
+      are those whose structural neighborhood is well-represented in the assay and
+      whose similarity profile correlates with the target variable. If the assay
+      itself has sampling biases, those biases will be reflected in which molecules
+      rank highly. A structurally underrepresented region of chemical space with
+      high activity would produce no high-importance molecules, even if it is
+      biologically significant.
+    </p>
+
+    <hr class="section-break">
+
+    <p>
+      The core contribution is the use of Random Forest feature importance on a
+      pairwise similarity matrix as a method for identifying structurally informative
+      prompt molecules, as distinct from simply selecting high-activity compounds.
+      This distinction has practical consequences: the selected molecules are anchors
+      in activity-predictive regions of chemical space, not just the highest-activity
+      compounds observed in a particular assay. Whether this translates to experimental
+      activity in synthesized candidates is the question that motivates the next stage
+      of the work.
+    </p>
+
+    <div class="footnotes">
+      <p>References</p>
+      <ol>
+        <li>Pan, J. "Large language model for molecular chemistry." <em>Nature Computational Science</em> 3(1), 2023.</li>
+        <li>Park, R., et al. "Preference optimization for molecular language models." arXiv:2310.12304, 2023.</li>
+        <li>Liu, P., et al. "Scientific language modeling: A quantitative review of large language models in molecular science." arXiv:2402.04119, 2024.</li>
+        <li>Polykovskiy, D., et al. "Molecular sets (MOSES): a benchmarking platform for molecular generation models." <em>Frontiers in Pharmacology</em> 11, 2020.</li>
+        <li>Riniker, S. and Landrum, G.A. "Similarity maps: a visualization strategy for molecular fingerprints and machine-learning methods." <em>Journal of Cheminformatics</em> 5, 2013.</li>
+        <li>Gaulton, A., et al. "ChEMBL: a large-scale bioactivity database for drug discovery." <em>Nucleic Acids Research</em> 40(D1), 2012.</li>
+        <li>Berdigaliyev, N. and Aljofan, M. "An overview of drug discovery and development." <em>Future Medicinal Chemistry</em> 12(10), 2020.</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://github.com/yanglers">GitHub</a>
+    <a href="https://linkedin.com/in/yanglers">LinkedIn</a>
+    <a href="mailto:ayiyang@stanford.edu">Email</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname ||
+          a.getAttribute('href') === window.location.pathname + '/') {
+        a.classList.add('active');
+      }
+    });
+  </script>
+
+</body>
+</html>

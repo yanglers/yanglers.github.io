@@ -222,6 +222,20 @@
             <span class="post-tag paper">paper</span>
           </div>
           <div class="post-body">
+            <a href="/writing/prompting-for-bioactivity/">Prompting for Bioactivity</a>
+            <p class="post-desc">Rather than retraining a molecular language model for each drug target,
+              we use Random Forest feature importance on a pairwise Tanimoto similarity matrix to identify 
+              structurally informative prompt molecules, distinguishing the best anchors for generative 
+              exploration from simply the highest-activity compounds in the assay.</p>
+          </div>
+        </li>
+
+        <li class="post-item" data-type="paper">
+          <div class="post-meta">
+            <span class="post-date">Winter 2025</span>
+            <span class="post-tag paper">paper</span>
+          </div>
+          <div class="post-body">
             <a href="/writing/kants-quiet-concession/">Kant's Quiet Concession</a>
             <p class="post-desc">The Formula of Universal Law fails to prove that the lying promiser is irrational, 
                 and Kant's later distinction between <em>Wille</em> and <em>Willkür</em> is best read as an implicit 
@@ -344,8 +358,8 @@
         const [ax,ay,az] = trail[i-1], [bx,by,bz] = trail[i];
         const px = ax*ca - az*sa, py = ay;
         const qx = bx*ca - bz*sa, qy = by;
-        const sx = cx + px*scale, sy = cy - py*scale + scale*-0.3;
-        const ex = cx + qx*scale, ey = cy - qy*scale + scale*-0.3;
+        const sx = cx + px*scale, sy = cy - py*scale + scale*-0.5;
+        const ex = cx + qx*scale, ey = cy - qy*scale + scale*-0.5;
         const alpha = (i/MAX) * 0.22;
         ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
         ctx.strokeStyle = `rgba(${color},${alpha})`;
