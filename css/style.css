@@ -113,7 +113,7 @@ nav ul li a:hover {
   color: var(--font-color);
 }
 
-/* ── Blog list ── */
+/* ── Dated lists ── */
 .post-list {
   list-style: none;
   padding: 0;
@@ -261,3 +261,57 @@ html::-webkit-scrollbar {
   z-index: -1;
   pointer-events: none;
 }
+/* Small discoveries in the margins of a personal notebook. */
+:root { --accent-color: #0067d9; }
+html[data-theme="dark"] { --accent-color: #78b4ff; }
+[hidden] { display: none !important; }
+nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 4px; }
+p[id] { scroll-margin-top: 2rem; }
+p[id]:target { border-left: 2px solid var(--accent-color); padding-left: 1rem; }
+.notebook { border: 1px solid var(--secondary-color); border-radius: 3px; padding: 1.25rem; margin: 1.75rem 0; background: var(--background-color); }
+.eyebrow, h2.eyebrow { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 1rem; }
+.atlas { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 0 1rem; align-items: center; }
+.place-controls { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; margin-bottom: 1rem; }
+.place-controls button, .quiet-button { font: inherit; font-size: 0.75rem; color: var(--font-color); background: none; border: 0; border-bottom: 1px solid var(--secondary-color); padding: 0.3rem 0; cursor: pointer; line-height: 1.5; }
+.place-controls button[aria-pressed="true"] { color: var(--accent-color); border-color: var(--accent-color); }
+.place-controls button:hover, .quiet-button:hover { color: var(--accent-color); }
+.coordinates { font-size: 0.65rem; opacity: 0.65; margin: 0 0 0.4rem; }
+#place-title { font-size: 0.85rem; margin: 0 0 0.5rem; }
+#place-caption { font-size: 0.8rem; line-height: 1.7; margin: 0 0 0.65rem; min-height: 5.1em; }
+#place-link { font-size: 0.72rem; color: var(--accent-color); }
+.atlas-globe { position: relative; width: 190px; aspect-ratio: 1; display: grid; place-items: center; }
+.atlas #globe-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: auto; }
+.globe-fallback { font-size: 0.8rem; color: var(--accent-color); }
+.globe-ready .globe-fallback { display: none; }
+.motion-toggle { justify-self: start; margin-top: 1rem; font-size: 0.65rem; opacity: 0.7; }
+.motion-toggle:disabled { cursor: default; border-bottom-style: dotted; }
+.name-note summary { cursor: pointer; font-size: 0.85rem; }
+.name-note summary span { opacity: 0.65; font-size: 0.7rem; }
+.name-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+.name-columns > div + div { border-left: 1px solid var(--secondary-color); padding-left: 1.25rem; }
+.name-columns p { margin: 0 0 0.4rem; font-size: 0.8rem; }
+.name-columns p.name-characters { font-family: system-ui, sans-serif; font-size: 2rem; color: var(--accent-color); line-height: 1.6; }
+.note-caption { font-size: 0.75rem; line-height: 1.7; opacity: 0.75; margin: 1rem 0 0; }
+.branching svg { width: 100%; height: auto; overflow: visible; color: var(--accent-color); }
+.branching svg circle { fill: currentColor; }
+.branching svg text { fill: var(--font-color); font-family: var(--font-stack); text-anchor: middle; font-size: 13px; }
+.route { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.alternate-route, .planned-route { transition: opacity 350ms ease; }
+.branching[data-branch="planned"] .alternate-route { opacity: 0; }
+.branching[data-branch="alternate"] .planned-route { opacity: 0.22; }
+.branching[data-branch="alternate"] .planned-route path { stroke-dasharray: 4 5; }
+.about-motion { display: block; margin: -0.5rem 0 1.5rem; }
+html[data-motion="paused"] .alternate-route, html[data-motion="paused"] .planned-route { transition: none; }
+@media (prefers-reduced-motion: reduce) { .alternate-route, .planned-route { transition: none; } }
+@media (max-width: 600px) {
+  .atlas { grid-template-columns: minmax(0, 1fr); }
+  .atlas-globe { grid-row: 2; width: 180px; justify-self: center; margin-top: 0.75rem; }
+  #place-caption { min-height: 0; }
+  .notebook { padding: 1rem; }
+  .name-columns { gap: 0.75rem; }
+  .name-columns > div + div { padding-left: 0.75rem; }
+  .name-columns p.name-characters { font-size: 1.65rem; }
+}
+
+.branching figcaption.eyebrow { color: var(--font-color); opacity: 0.7; text-align: left; }

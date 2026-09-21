@@ -22,12 +22,7 @@
     <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
   </header>
 
-  <nav>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About</a></li>
-  </ul>
-  </nav>
+  <nav aria-label="Main navigation"><ul><li><a href="/" aria-current="page">Home</a></li><li><a href="/about/">About</a></li></ul></nav>
 
   <main>
     <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -50,7 +45,25 @@
       I find fullfillment in ideating solutions for systems that run society. Outside of that, you might catch me poring over an atlas or scrolling through linguistics forums. 
     </p>
   
-    <p style="font-size: 0.8rem; opacity: 0.5;">New Jersey | Stanford | Boston</p>
+    <section class="atlas notebook" aria-labelledby="atlas-title">
+      <div class="atlas-copy">
+        <h2 id="atlas-title" class="eyebrow">A small personal atlas</h2>
+        <div class="place-controls" aria-label="Explore my homes">
+          <button type="button" data-place="nj" aria-pressed="true" hidden>New Jersey</button>
+          <button type="button" data-place="stanford" aria-pressed="false" hidden>Stanford</button>
+          <button type="button" data-place="boston" aria-pressed="false" hidden>Boston</button>
+        </div>
+        <div id="place-story" aria-live="polite" aria-atomic="true">
+          <p class="coordinates" id="place-coordinates">40.43° N / 74.42° W</p>
+          <h3 id="place-title">East Brunswick, New Jersey</h3>
+          <p id="place-caption">Shrub-lined suburbia and library atlases. Where my curiosity began.</p>
+          <a id="place-link" href="/about/#new-jersey">A little more about home →</a>
+        </div>
+        <noscript><p>Explore my other homes: <a href="/about/#stanford">Stanford</a> and <a href="/about/#boston">Boston</a>.</p></noscript>
+      </div>
+      <div class="atlas-globe" aria-hidden="true"><canvas id="globe-bg"></canvas><span class="globe-fallback">NJ · CA · MA</span></div>
+      <button class="motion-toggle quiet-button" type="button" hidden aria-pressed="false">Pause motion</button>
+    </section>
   </main>
   
   <footer>
@@ -59,140 +72,9 @@
     <a href="mailto:ayiyang@stanford.edu">Email</a>
   </footer>
 
-  <canvas id="globe-bg"></canvas>
+  <script src="/js/interactions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-  <script>
-    const canvas = document.getElementById('globe-bg');
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setClearColor(0x000000, 0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.z = 2.8;
-
-    const R = 0.7;
-    const globe = new THREE.Group();
-    globe.rotation.x = 0.3;
-    globe.position.y = -0.2;
-    scene.add(globe);
-
-    // Faint sphere outline
-    const sphereGeo = new THREE.SphereGeometry(R, 32, 32);
-    const sphereWire = new THREE.WireframeGeometry(sphereGeo);
-    const sphereMat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.06 });
-    globe.add(new THREE.LineSegments(sphereWire, sphereMat));
-
-    const words = [
-      '你好', 'مرحبا', 'Привет', 'こんにちは', '안녕하세요',
-      'Bonjour', 'Hola', 'مرحبا', 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ', 'Olá',
-      'Γεια', 'שלום', 'สวัสดี', 'Xin chào', 'Merhaba',
-      'Hallå', 'Ciao', 'Hallo', 'नमस्ते', 'Sawubona'
-    ];
-
-    function makeTextSprite(text) {
-      const c = document.createElement('canvas');
-      c.width = 256; c.height = 64;
-      const ctx = c.getContext('2d');
-      ctx.clearRect(0, 0, 256, 64);
-      ctx.font = '28px IBM Plex Mono, monospace';
-      ctx.fillStyle = 'rgba(0, 118, 255, 0.7)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(text, 128, 32);
-      const tex = new THREE.CanvasTexture(c);
-      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.0 });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(0.4, 0.1, 1);
-      return sprite;
-    }
-
-    const orbitGroup = new THREE.Group();
-    orbitGroup.rotation.x = 0.3;
-    orbitGroup.position.y = -0.5;
-    scene.add(orbitGroup);
-
-    const spriteData = words.map((word, i) => {
-      const sprite = makeTextSprite(word);
-      const angle = (i / words.length) * Math.PI * 2;
-      const radius = 1.05 + Math.random() * 0.3;
-      const tilt = (Math.random() - 0.5) * 1.2 + 0.4;
-      sprite.userData = { angle, radius, tilt, speed: 0.0003 + Math.random() * 0.0004 };
-      sprite.position.set(
-        Math.cos(angle) * radius,
-        tilt,
-        Math.sin(angle) * radius
-      );
-      orbitGroup.add(sprite);
-      return sprite;
-    });
-
-    // Fade sprites in slowly
-    let fadeProgress = 0;
-
-    function latLonToVec3(lat, lon) {
-      const phi = (90 - lat) * Math.PI / 180;
-      const theta = (lon + 180) * Math.PI / 180;
-      return new THREE.Vector3(
-        -R * Math.sin(phi) * Math.cos(theta),
-        R * Math.cos(phi),
-        R * Math.sin(phi) * Math.sin(theta)
-      );
-    }
-
-    function drawLines(coords) {
-      const mat = new THREE.LineBasicMaterial({ color: 0x0076ff, transparent: true, opacity: 0.16 });
-      const points = coords.map(([lon, lat]) => latLonToVec3(lat, lon));
-      const geo = new THREE.BufferGeometry().setFromPoints(points);
-      globe.add(new THREE.Line(geo, mat));
-    }
-
-    function processGeometry(geometry) {
-      if (geometry.type === 'Polygon') {
-        geometry.coordinates.forEach(drawLines);
-      } else if (geometry.type === 'MultiPolygon') {
-        geometry.coordinates.forEach(poly => poly.forEach(drawLines));
-      }
-    }
-
-    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-      .then(r => r.json())
-      .then(world => {
-        const countries = topojson.feature(world, world.objects.countries);
-        countries.features.forEach(f => processGeometry(f.geometry));
-      });
-
-    window.addEventListener('resize', () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    });
-
-    (function animate() {
-      requestAnimationFrame(animate);
-      globe.rotation.y += 0.002;
-
-      // Fade in text over ~3 seconds
-      if (fadeProgress < 1) fadeProgress += 0.002;
-
-      spriteData.forEach(sprite => {
-        sprite.userData.angle += sprite.userData.speed;
-        const { angle, radius, tilt } = sprite.userData;
-        sprite.position.set(
-          Math.cos(angle) * radius,
-          tilt,
-          Math.sin(angle) * radius
-        );
-        // Fade based on z position (front = visible, back = hidden)
-        const z = sprite.position.z;
-        const depthFade = (z + radius) / (2 * radius);
-        sprite.material.opacity = depthFade * 0.75 * fadeProgress;
-      });
-
-      renderer.render(scene, camera);
-    })();
-  </script>
+  <script src="/js/atlas.js"></script>
 </body>
 </html>
