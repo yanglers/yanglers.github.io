@@ -52,7 +52,7 @@
   function line(points, material) {
     globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), material));
   }
-  const marker = new THREE.Mesh(new THREE.SphereGeometry(0.009, 16, 12), new THREE.MeshBasicMaterial({ color: 0x0076ff }));
+  const marker = new THREE.Mesh(new THREE.SphereGeometry(0.007, 16, 12), new THREE.MeshBasicMaterial({ color: 0x0076ff }));
   globe.add(marker);
   const target = new THREE.Quaternion();
   marker.visible = false;
