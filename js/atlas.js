@@ -20,6 +20,20 @@
   catch (_) { return; }
   document.body.classList.add('globe-ready');
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  let zoom = 1;
+  const zoomOut = document.getElementById('zoom-out');
+  const zoomIn = document.getElementById('zoom-in');
+  document.getElementById('globe-zoom').hidden = false;
+  function setZoom(value) {
+    zoom = Math.max(0.6, Math.min(2.5, value));
+    document.getElementById('zoom-level').value = `${Math.round(zoom * 100)}%`;
+    zoomOut.disabled = zoom <= 0.6;
+    zoomIn.disabled = zoom >= 2.5;
+    resize();
+  }
+  zoomOut.addEventListener('click', () => setZoom(zoom - 0.2));
+  zoomIn.addEventListener('click', () => setZoom(zoom + 0.2));
+  document.getElementById('zoom-reset').addEventListener('click', () => setZoom(1));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
   camera.position.z = 2.8;
@@ -124,9 +138,10 @@
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.position.z = 2.8;
+    camera.zoom = zoom;
     camera.updateProjectionMatrix();
     // Match the drag surface to the globe's projected silhouette.
-    const scale = height / (2 * Math.tan(camera.fov * Math.PI / 360));
+    const scale = zoom * height / (2 * Math.tan(camera.fov * Math.PI / 360));
     const size = 2 * radius * scale / camera.position.z;
     dragSurface.style.width = `${size}px`;
     dragSurface.style.height = `${size}px`;
@@ -244,6 +259,19 @@
     dragSurface.classList.remove('dragging');
     if (dragSurface.hasPointerCapture(id)) dragSurface.releasePointerCapture(id);
   }
+  // Handle the globe and floating greetings, without capturing page or card scrolling.
+  document.addEventListener('wheel', event => {
+    if (explorer.flat() || event.ctrlKey || event.metaKey || !event.deltaY) return;
+    if (!event.target.closest('#globe-control, .greeting-link')) return;
+    const bounds = dragSurface.getBoundingClientRect();
+    const nx = (event.clientX - bounds.left - bounds.width / 2) / (bounds.width / 2);
+    const ny = (event.clientY - bounds.top - bounds.height / 2) / (bounds.height / 2);
+    if (nx * nx + ny * ny > 1) return;
+    event.preventDefault();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1;
+    const delta = Math.max(-120, Math.min(120, event.deltaY * unit));
+    setZoom(zoom * Math.exp(-delta * 0.0015));
+  }, { passive: false });
   dragSurface.addEventListener('pointerdown', event => {
     if (pointer || !event.isPrimary || event.button !== 0) return;
     event.preventDefault();
@@ -263,6 +291,11 @@
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => dragSurface.addEventListener(type, stopDrag));
   window.addEventListener('blur', stopDrag);
   dragSurface.addEventListener('keydown', event => {
+    if (!explorer.flat() && ['+', '=', '-', '0'].includes(event.key)) {
+      event.preventDefault();
+      setZoom(event.key === '0' ? 1 : zoom + (event.key === '-' ? -0.2 : 0.2));
+      return;
+    }
     const movement = { ArrowLeft: [-0.12, 0], ArrowRight: [0.12, 0], ArrowUp: [0, -0.12], ArrowDown: [0, 0.12] }[event.key];
     if (!movement || explorer.flat()) return;
     event.preventDefault();

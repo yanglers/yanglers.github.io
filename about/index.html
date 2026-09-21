@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=fbd0ed8ab8f7">
+  <link rel="stylesheet" href="../css/style.css?v=56c4e0faac47">
   <script src="../js/theme.js?v=8012739c6037"></script>
 </head>
 
@@ -60,6 +60,12 @@
         <div>∇ · v = 0</div>
       </div>
       <p>φ evolves at rate ω. Larger L produces broader bends; B adds vertical drift (negative values move downward). Set ω to zero to hold the field’s shape while words keep moving. Negative A reverses circulation; C adds horizontal drift. Travel speed scales word velocity without changing field evolution. All settings preserve ∇ · v = 0.</p>
+      <div class="trajectory-controls">
+        <label><input type="checkbox" id="trace-mode"> Click empty background to release tracers</label>
+        <button class="quiet-button" id="trace-release" type="button">Release tracer</button>
+        <button class="quiet-button" id="trace-clear" type="button">Clear trails</button>
+        <p id="trace-status" role="status">No tracers. Up to eight trails, each showing the last 60 seconds of motion.</p>
+      </div>
       <button class="quiet-button" id="flow-reset" type="button">Reset flow</button>
     </div>
   </details>
@@ -286,6 +292,38 @@
         }
       }
     }
+    const tracers = [];
+    const traceMode = document.getElementById('trace-mode');
+    const traceStatus = document.getElementById('trace-status');
+    function release(x,y) {
+      if(tracers.length===8)tracers.shift();
+      tracers.push({x,y,trail:[{x,y,time:0}],age:0,lastSample:0});
+      traceStatus.textContent = `${tracers.length} active tracer${tracers.length===1?'':'s'}. Trails retain 60 seconds of motion.`;
+      window.siteMotion.redraw();
+    }
+    document.getElementById('trace-release').addEventListener('click',()=>release(innerWidth-12,innerHeight*0.65));
+    document.getElementById('trace-clear').addEventListener('click',()=>{
+      tracers.length=0;traceStatus.textContent='No tracers. Click the background or use Release tracer.';window.siteMotion.redraw();
+    });
+    document.addEventListener('click',event=>{
+      if(!explorer.open||!traceMode.checked||event.target.closest('a, button, input, select, label, summary, .flow-panel, main, header, nav, footer'))return;
+      release(event.clientX,event.clientY);
+    });
+    function drawTracers(delta,phase) {
+      ctx.strokeStyle='#c58b35';ctx.fillStyle='#c58b35';ctx.lineWidth=1.4;
+      for(const p of tracers) {
+        if(delta) {
+          const v=velocity(p.x,p.y,phase-evolution*delta);
+          const mid=velocity(p.x+v.x*delta/2,p.y+v.y*delta/2,phase-evolution*delta/2);
+          p.x+=mid.x*delta;p.y+=mid.y*delta;p.age+=delta;
+          if(p.age-p.lastSample>=0.1){p.trail.push({x:p.x,y:p.y,time:p.age});p.lastSample=p.age;}
+          while(p.trail.length&&p.trail[0].time<p.age-60)p.trail.shift();
+        }
+        if(!explorer.open)continue;
+        ctx.beginPath();p.trail.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.lineTo(p.x,p.y);ctx.stroke();
+        ctx.beginPath();ctx.arc(p.x,p.y,3,0,2*Math.PI);ctx.fill();
+      }
+    }
     let fieldPhase = 0;
     function draw(delta = 0) {
       fieldPhase += delta * evolution;
@@ -296,6 +334,7 @@
 
       const phase = fieldPhase;
       if (explorer.open) drawStreamlines(phase, color);
+      drawTracers(delta,phase);
       particles.forEach(p => {
         const v = velocity(p.x, p.y, phase);
         p.x += v.x * delta;

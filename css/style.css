@@ -440,3 +440,14 @@ html[data-motion="paused"] .home-page #globe-bg { transition: none; }
 @media (max-width: 600px) {
   #place-card > svg:not(#place-map) :is(path, circle, ellipse) { vector-effect: non-scaling-stroke; }
 }
+
+.trajectory-controls { border-top: 1px solid var(--secondary-color); padding-top: 1rem; margin: 1rem 0; }
+.trajectory-controls button { margin: 0.5rem 1rem 0.8rem 0; }
+
+.flat-projection #place-card { display: none; }
+
+#globe-zoom { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.8rem; margin: 0.7rem 0; font-size: 0.7rem; }
+#globe-zoom[hidden], .flat-projection #globe-zoom { display: none; }
+#globe-zoom button { min-width: 36px; min-height: 36px; }
+#globe-zoom button:disabled { opacity: 0.35; cursor: default; }
+#zoom-level { min-width: 4ch; text-align: center; }

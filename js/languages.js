@@ -79,7 +79,7 @@ window.createLanguageNotes = ({words,camera,visible,enabled,highlight=()=>{},onS
     const active=visible();layer.hidden=!active;
     if(!enabled()&&!panel.hidden)close(false);
     if(!active){words.forEach(({sprite})=>{sprite.visible=true;});return;}
-    const obstacles=[...document.querySelectorAll('#introduction:not([hidden]), .site-header, body > nav, .location-navigation, #language-tools, #location-view > div, #location-view > details, #back-introduction, #reset-globe, .globe-help, #place-card, footer')].map(el=>el.getBoundingClientRect());
+    const obstacles=[...document.querySelectorAll('#introduction:not([hidden]), .site-header, body > nav, .location-navigation, #language-tools, #globe-zoom, #location-view > div, #location-view > details, #back-introduction, #reset-globe, .globe-help, #place-card, footer')].map(el=>el.getBoundingClientRect());
     links.forEach(({word,button})=>{
       word.sprite.visible=!active;
       if(!active)return;

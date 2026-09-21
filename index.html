@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
-  <link rel="stylesheet" href="css/style.css?v=fbd0ed8ab8f7">
+  <link rel="stylesheet" href="css/style.css?v=56c4e0faac47">
   <!-- Load theme before paint to avoid flash -->
   <script src="js/theme.js?v=8012739c6037"></script>
 </head>
@@ -55,6 +55,12 @@
       <a href="/about/#boston" data-place="boston">Boston</a>
     </div>
       <details id="language-tools"><summary>Languages</summary><label for="language-select">Greeting</label> <select id="language-select"></select> <button type="button" id="show-language">View</button></details>
+    <div id="globe-zoom" role="group" aria-label="Globe zoom" hidden>
+      <button type="button" class="quiet-button" id="zoom-out" aria-label="Zoom out">−</button>
+      <output id="zoom-level" aria-live="polite">100%</output>
+      <button type="button" class="quiet-button" id="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="quiet-button" id="zoom-reset">Reset zoom</button>
+    </div>
     <section id="location-view" aria-label="Selected location" hidden>
       <div aria-live="polite" aria-atomic="true">
         <h2 id="place-title"></h2>
@@ -64,7 +70,8 @@
       <button type="button" class="quiet-button" id="reset-globe">Reset view</button>
       <details id="atlas-explore">
         <summary>Explore</summary>
-        <label>Projection <select id="projection"><option value="globe">Globe</option><option value="flat">Equirectangular map</option></select></label>
+        <label>Projection <select id="projection"><option value="globe">Globe</option><option value="flat">Equirectangular</option><option value="equal-area">Equal-area cylindrical</option><option value="mercator">Mercator (conformal)</option></select></label>
+        <label><input type="checkbox" id="distortion-circles"> Show equal-radius reference circles</label>
         <p id="projection-note">Globe: perspective view of a sphere. Drag to rotate; measurements follow its surface.</p>
         <p id="coordinate-readout">Move over the globe or map to inspect coordinates.</p>
         <label><input type="checkbox" id="measure-mode"> Select points to measure</label>
@@ -72,7 +79,7 @@
         <p id="measurement-result" aria-live="polite"></p>
         <button type="button" id="clear-measurement">Clear measurement</button>
       </details>
-      <p class="globe-help" id="globe-help">Hold to pause · Drag to rotate · Arrow keys when focused</p>
+      <p class="globe-help" id="globe-help">Scroll to zoom · Hold to pause · Drag to rotate · Arrow keys when focused</p>
   <aside id="place-card" hidden aria-labelledby="place-card-title">
     <h2 id="place-card-title"></h2>
     <svg id="place-map" viewBox="0 0 260 125" role="img" aria-label="Local boundary map"></svg>
@@ -272,11 +279,11 @@
   <script src="/js/interactions.js?v=a69ba0244acf"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-  <script src="/js/explore.js?v=bb0daa61c66c"></script>
+  <script src="/js/explore.js?v=e85ec29ecae9"></script>
   <script src="/js/language-regions.js?v=0328150e67eb"></script>
   <script src="/js/language-coverage.js?v=df0fd3d27549"></script>
   <script src="/js/region-labels.js?v=bad8afdcae81"></script>
-  <script src="/js/languages.js?v=558270aa1516"></script>
-  <script src="/js/atlas.js?v=e7e5bfbf9846"></script>
+  <script src="/js/languages.js?v=a1f1d2f093da"></script>
+  <script src="/js/atlas.js?v=48cbbfb5913f"></script>
 </body>
 </html>
