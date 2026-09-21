@@ -400,3 +400,19 @@ html[data-motion="paused"] .home-page #globe-bg { transition: none; }
 
 .region-list li::before {content:none;}
 .region-flag {font-size:.95rem;line-height:1;}
+
+/* Optional mathematical view of the About page background. */
+.flow-explorer { margin: -0.75rem 0 1.5rem; font-size: 0.75rem; }
+.flow-explorer summary { cursor: pointer; width: fit-content; }
+.flow-explorer summary:hover { color: var(--accent-color); }
+.flow-panel { margin-top: 0.8rem; padding: 1rem; border: 1px solid var(--secondary-color); background: var(--background-color); }
+.flow-panel p { font-size: inherit; line-height: 1.7; margin: 0 0 0.8rem; }
+.flow-panel label { display: block; }
+.flow-panel output { margin-left: 0.5rem; }
+.flow-panel input[type="range"] { display: block; width: min(100%, 280px); margin: 0.6rem 0; accent-color: var(--accent-color); }
+#flow-units { opacity: 0.7; }
+.flow-equations { margin: 1rem 0; line-height: 1.9; overflow-x: auto; white-space: nowrap; }
+
+.flow-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; margin-top: 1rem; }
+.flow-panel #flow-preset { width: min(100%, 280px); font: inherit; color: var(--font-color); background: var(--background-color); padding: 0.4rem; }
+@media (max-width: 540px) { .flow-controls { grid-template-columns: 1fr; } }

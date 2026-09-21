@@ -185,7 +185,11 @@
     window.siteMotion.redraw();
   }
   explorer = window.createAtlasExplorer({globe,camera,radius,surface:dragSurface,render:()=>window.siteMotion.redraw(),resize});
-  languageNotes = window.createLanguageNotes({words,camera,visible:()=>!explorer.flat(),enabled:()=>true,highlight:highlightCountries});
+  languageNotes = window.createLanguageNotes({words,camera,visible:()=>!explorer.flat(),enabled:()=>true,highlight:highlightCountries,onSelect:()=>{
+    if (!selected && history.state?.globeOnly) return;
+    history.pushState({globeOnly:true}, '', window.location.pathname + window.location.search);
+    showView();
+  }});
   window.siteMotion.add(delta => {
     if (route) {
       if (window.siteMotion.paused) clearRoute();
@@ -288,9 +292,13 @@
       for(const [key,id] of Object.entries({stanford:'stanford-quad',nj:'nj-landmark',boston:'boston-landmark'}))document.getElementById(id).toggleAttribute('hidden',selected!==key);
     }
     highlightPlace(selected?{lang:'place-'+selected}:null);
-    document.getElementById('introduction').hidden = Boolean(selected);
-    document.getElementById('location-view').hidden = !selected;
-    document.body.classList.toggle('location-active', Boolean(selected));
+    const globeOnly = Boolean(selected || history.state?.globeOnly);
+    document.getElementById('introduction').hidden = globeOnly;
+    document.getElementById('location-view').hidden = !globeOnly;
+    document.querySelector('#location-view > div').hidden = !selected;
+    document.getElementById('reset-globe').hidden = !selected;
+    document.getElementById('location-view').setAttribute('aria-label', selected ? 'Selected location' : 'Globe exploration');
+    document.body.classList.toggle('location-active', globeOnly);
     dragSurface.hidden = false;
     controls.forEach(link => {
       if (link.dataset.place === selected) link.setAttribute('aria-current', 'location');

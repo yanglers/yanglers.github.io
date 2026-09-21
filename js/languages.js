@@ -33,13 +33,14 @@ window.greetingNotes = [
 ];
 const greetingCountries = {zh:[156,158],fr:[250,124],es:[724,484],ja:[392],cy:[826],eu:[724,250],mi:[554],is:[352]};
 window.greetingNotes.forEach(note => {note.countries ||= greetingCountries[note.lang];});
-window.createLanguageNotes = ({words,camera,visible,enabled,highlight=()=>{}}) => {
+window.createLanguageNotes = ({words,camera,visible,enabled,highlight=()=>{},onSelect=()=>{}}) => {
   const layer=document.getElementById('greeting-links');
   const panel=document.getElementById('language-note');
   const selector=document.getElementById('language-select');
   let lastFocus=null, selectedNote=null;
   window.greetingNotes.forEach((note,i)=>{const option=document.createElement('option');option.value=i;option.textContent=`${note.language} — ${note.word}`;selector.append(option);});
   function open(note,launcher) {
+    onSelect(note);
     lastFocus=launcher; selectedNote=note; highlight(note);
     document.getElementById('language-word').textContent=note.word;
     document.getElementById('language-word').lang=note.lang;

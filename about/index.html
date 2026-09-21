@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=64f59adf528d">
+  <link rel="stylesheet" href="../css/style.css?v=9ceb4ea87ef4">
   <script src="../js/theme.js?v=8012739c6037"></script>
 </head>
 
@@ -20,6 +20,49 @@
 
   <nav aria-label="Main navigation"><ul><li><a href="/">Home</a></li><li><a href="/about/" aria-current="page">About</a></li></ul></nav>
   <button class="motion-toggle quiet-button about-motion" type="button" hidden aria-pressed="false">Pause motion</button>
+
+  <details class="flow-explorer" id="flow-explorer">
+    <summary>Explore the flow</summary>
+    <div class="flow-panel">
+      <p>The lines show the instantaneous flow field carrying the words.</p>
+      <label for="flow-preset">Preset</label>
+      <select id="flow-preset"><option value="default">Original flow</option><option value="circulation">Stationary circulation</option><option value="drift">Diagonal drift</option><option value="evolving">Evolving currents</option><option value="custom" disabled>Custom</option></select>
+      <div class="flow-controls">
+      <div class="flow-control">
+      <label for="flow-strength">Circulation <output id="flow-value" for="flow-strength">6</output></label>
+      <input id="flow-strength" type="range" min="-12" max="12" step="0.5" value="6" aria-describedby="flow-units">
+      <span id="flow-units">A, in pixels per second</span>
+      </div>
+      <div class="flow-control">
+      <label for="flow-scale">Spatial scale L <output id="flow-scale-value" for="flow-scale">320</output> px</label>
+      <input id="flow-scale" type="range" min="160" max="640" step="20" value="320">
+      </div>
+      <div class="flow-control">
+      <label for="flow-drift">Upward drift B <output id="flow-drift-value" for="flow-drift">2</output> px/s</label>
+      <input id="flow-drift" type="range" min="-6" max="6" step="0.5" value="2">
+      </div>
+      <div class="flow-control">
+      <label for="flow-evolution">Field evolution ω <output id="flow-evolution-value" for="flow-evolution">0.035</output> rad/s</label>
+      <input id="flow-evolution" type="range" min="0" max="0.1" step="0.005" value="0.035">
+      </div>
+      <div class="flow-control">
+      <label for="flow-horizontal">Rightward drift C <output id="flow-horizontal-value" for="flow-horizontal">0</output> px/s</label>
+      <input id="flow-horizontal" type="range" min="-6" max="6" step="0.5" value="0">
+      </div>
+      <div class="flow-control">
+      <label for="flow-speed">Travel speed s <output id="flow-speed-value" for="flow-speed">1</output> ×</label>
+      <input id="flow-speed" type="range" min="0.25" max="3" step="0.25" value="1">
+      </div>
+      </div>
+      <div class="flow-equations" aria-label="Velocity field equations">
+        <div>vₓ = s [A sin(x/L + φ) cos(y/L − φ) + C]</div>
+        <div>vᵧ = s [−A cos(x/L + φ) sin(y/L − φ) − B]</div>
+        <div>∇ · v = 0</div>
+      </div>
+      <p>φ evolves at rate ω. Larger L produces broader bends; B adds vertical drift (negative values move downward). Set ω to zero to hold the field’s shape while words keep moving. Negative A reverses circulation; C adds horizontal drift. Travel speed scales word velocity without changing field evolution. All settings preserve ∇ · v = 0.</p>
+      <button class="quiet-button" id="flow-reset" type="button">Reset flow</button>
+    </div>
+  </details>
 
   <main>
     <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -166,24 +209,97 @@
       opacity: 0.04 + Math.random() * 0.08,
     }));
 
-    let fieldTime = 0;
+    const explorer = document.getElementById('flow-explorer');
+    const strength = document.getElementById('flow-strength');
+    const value = document.getElementById('flow-value');
+    let amplitude = 6, spatialScale = 320, drift = 2, evolution = 0.035, horizontalDrift = 0, travelSpeed = 1;
+    const parameters = [
+      ['flow-scale', 320, n => spatialScale = n],
+      ['flow-drift', 2, n => drift = n],
+      ['flow-evolution', 0.035, n => evolution = n],
+      ['flow-horizontal', 0, n => horizontalDrift = n],
+      ['flow-speed', 1, n => travelSpeed = n]
+    ];
+    for (const [id, initial, assign] of parameters) {
+      const input = document.getElementById(id);
+      input.addEventListener('input', () => {
+        document.getElementById('flow-preset').value = 'custom';
+        assign(Number(input.value));
+        document.getElementById(id + '-value').value = input.value;
+        window.siteMotion.redraw();
+      });
+    }
+    function setStrength() {
+      amplitude = Number(strength.value);
+      value.value = strength.value;
+      window.siteMotion.redraw();
+    }
+    strength.addEventListener('input', () => { document.getElementById('flow-preset').value = 'custom'; setStrength(); });
+    const presets = {
+      default: [6, 320, 2, 0.035, 0, 1],
+      circulation: [8, 240, 0, 0, 0, 1],
+      drift: [0, 320, 3, 0, 3, 1],
+      evolving: [10, 200, 1, 0.075, 1, 1.5]
+    };
+    function applyPreset(name) {
+      const settings = presets[name];
+      if (!settings) return;
+      parameters.forEach(([id, initial, assign], index) => {
+        document.getElementById(id).value = settings[index + 1];
+        document.getElementById(id + '-value').value = settings[index + 1];
+        assign(settings[index + 1]);
+      });
+      strength.value = settings[0];
+      document.getElementById('flow-preset').value = name;
+      setStrength();
+    }
+    document.getElementById('flow-preset').addEventListener('change', event => applyPreset(event.target.value));
+    document.getElementById('flow-reset').addEventListener('click', () => applyPreset('default'));
+    explorer.addEventListener('toggle', () => window.siteMotion.redraw());
+    // Both words and streamlines use exactly the same velocity function.
+    function velocity(x, y, phase) {
+      return {
+        x: travelSpeed * (amplitude * Math.sin(x / spatialScale + phase) * Math.cos(y / spatialScale - phase) + horizontalDrift),
+        y: travelSpeed * (-amplitude * Math.cos(x / spatialScale + phase) * Math.sin(y / spatialScale - phase) - drift)
+      };
+    }
+    function drawStreamlines(phase, color) {
+      ctx.strokeStyle = `rgba(${color}, 0.10)`;
+      ctx.lineWidth = 0.7;
+      // Trace short instantaneous streamlines in both directions with midpoint integration.
+      for (let sy = 36; sy < canvas.height; sy += 100) {
+        for (let sx = 36; sx < canvas.width; sx += 100) {
+          for (const direction of [-1, 1]) {
+            let x = sx, y = sy;
+            ctx.beginPath(); ctx.moveTo(x, y);
+            for (let step = 0; step < 24; step++) {
+              const v = velocity(x, y, phase);
+              const speed = Math.hypot(v.x, v.y);
+              if (speed < 0.15) break;
+              const dt = direction * Math.min(1, 5 / speed);
+              const mid = velocity(x + v.x * dt / 2, y + v.y * dt / 2, phase);
+              x += mid.x * dt; y += mid.y * dt;
+              ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    let fieldPhase = 0;
     function draw(delta = 0) {
-      fieldTime += delta;
+      fieldPhase += delta * evolution;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const color = isDark ? '232, 232, 232' : '0, 0, 0';
 
+      const phase = fieldPhase;
+      if (explorer.open) drawStreamlines(phase, color);
       particles.forEach(p => {
-        // A slowly evolving, divergence-free field derived from a stream function.
-        // Shared flow gives neighboring words related trajectories without clustering.
-        const x = p.x / 320;
-        const y = p.y / 320;
-        const phase = fieldTime * 0.035;
-        const vx = 6 * Math.sin(x + phase) * Math.cos(y - phase);
-        const vy = -6 * Math.cos(x + phase) * Math.sin(y - phase) - 2;
-        p.x += vx * delta;
-        p.y += vy * delta;
+        const v = velocity(p.x, p.y, phase);
+        p.x += v.x * delta;
+        p.y += v.y * delta;
 
         if (p.x < -200) p.x = canvas.width + 100;
         if (p.x > canvas.width + 200) p.x = -100;

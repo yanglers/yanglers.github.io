@@ -36,7 +36,14 @@
     mi:{countries:[554],label:'Aotearoa New Zealand'},
     is:{countries:[352],label:'Iceland'}
   };
+  // Remove subdivisions covered by a whole-country outline before either the
+  // cards or the map consume the shared coverage data.
+  const parentCountries = {USA:840,CAN:124,BEL:56,CHE:756,CHN:156,IND:356,
+    PAK:586,FIN:246,ESP:724,FRA:250,'FR-BASQUE':250,GBR:826,ZAF:710,
+    CYP:196,THA:764,'US-STANFORD':840,'US-BOSTON':840};
   for(const [lang,config] of Object.entries(coverage)) {
-    window.languageRegions[lang]={areas:[],...config,countries:[...new Set([...(config.countries||[]),...(config.secondCountries||[])])],secondCountries:[]};
+    const countries=[...new Set([...(config.countries||[]),...(config.secondCountries||[])])];
+    const areas=(config.areas||[]).filter(([parent])=>!countries.includes(parentCountries[parent]));
+    window.languageRegions[lang]={...config,countries,areas,secondCountries:[]};
   }
 })();
