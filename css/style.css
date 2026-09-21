@@ -416,3 +416,27 @@ html[data-motion="paused"] .home-page #globe-bg { transition: none; }
 .flow-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; margin-top: 1rem; }
 .flow-panel #flow-preset { width: min(100%, 280px); font: inherit; color: var(--font-color); background: var(--background-color); padding: 0.4rem; }
 @media (max-width: 540px) { .flow-controls { grid-template-columns: 1fr; } }
+
+/* Compact location cards keep landmark drawings legible on narrow screens. */
+@media (max-width: 600px) {
+  #place-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 90px;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+    margin: clamp(3rem, calc(100svh - 600px), 15rem) auto 1rem;
+    overflow: visible;
+  }
+  #place-card[hidden] { display: none; }
+  #place-card h2 { grid-column: 1; grid-row: 1; margin: 0; }
+  #place-card #place-map { grid-column: 2; grid-row: 1; width: 90px; height: 64px; display: block; }
+  #place-card > svg:not(#place-map) { grid-column: 1 / -1; display: block; width: 100%; height: auto; margin: 0; }
+  #place-card > svg[hidden] { display: none; }
+  #place-card > p, #place-card > a { grid-column: 1 / -1; margin: 0; }
+}
+
+@media (max-width: 600px) {
+  #place-card > svg:not(#place-map) :is(path, circle, ellipse) { vector-effect: non-scaling-stroke; }
+}
