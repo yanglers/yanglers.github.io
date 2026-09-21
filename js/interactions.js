@@ -45,24 +45,4 @@
   document.addEventListener('visibilitychange', update);
   update();
 
-  const branch = document.getElementById('branching');
-  const toggle = document.getElementById('branch-toggle');
-  if (branch && toggle) {
-    branch.dataset.branch = 'planned';
-    toggle.hidden = false;
-    document.getElementById('path-description').textContent = 'The planned path follows A, B, C, and D in a straight line.';
-    document.getElementById('path-caption').textContent = 'The plan: A → B → C → D. A reassuringly straight line.';
-    toggle.addEventListener('click', () => {
-      const alternate = branch.dataset.branch !== 'alternate';
-      branch.dataset.branch = alternate ? 'alternate' : 'planned';
-      toggle.setAttribute('aria-pressed', String(alternate));
-      toggle.textContent = alternate ? 'Revisit the original plan ↶' : 'Something else looks interesting ↗';
-      document.getElementById('path-caption').textContent = alternate
-        ? 'At B, a new possibility. After that? Room to find out.'
-        : 'The plan: A → B → C → D. A reassuringly straight line.';
-      document.getElementById('path-description').textContent = alternate
-        ? 'The chosen path branches from B toward a new possibility and an unknown destination. The original route through C and D remains faintly visible.'
-        : 'The planned path follows A, B, C, and D in a straight line.';
-    });
-  }
 })();

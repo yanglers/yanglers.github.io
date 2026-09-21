@@ -27,10 +27,6 @@
     </div>
 
     <h1>A stream of consciousness</h1>
-    <p>
-      <em> (Sep 2026) </em>
-    </p>
-
     <p id="new-jersey">
       I was born and raised in East Brunswick, New Jersey. It's admittedly not the most exciting place,
       nor is it somewhere that I return to as often as I should — but I still consider it my home.
@@ -54,15 +50,6 @@
       my full name thus becomes "Austin Yizhi Yang" or "Austin one sheep". I used to be embarrassed by this,
       but nowadays I find it really cute and embrace it fully 🐑.
     </p>
-
-    <details class="notebook name-note">
-      <summary>Yizhi Yang, or… <span>explore the wordplay</span></summary>
-      <div class="name-columns">
-        <div><p class="eyebrow">The meanings</p><p class="name-characters" lang="zh">毅 · 智</p><p>yi · zhi</p><p>Tenacity · wisdom</p></div>
-        <div><p class="eyebrow">The wordplay <span aria-hidden="true">🐑</span></p><p class="name-characters" lang="zh">一只羊</p><p>yi · zhi · yang</p><p>One sheep</p></div>
-      </div>
-      <p class="note-caption">The same syllables, a different reading. A nickname I’ve grown to love.</p>
-    </details>
 
     <p>
       Speaking of nicknames, a lot of my close friends call me "yanglers". It's something that came to be sometime
@@ -97,20 +84,6 @@
       in Cambridge (Massachusetts) enjoying a pistachio latte with the man who would become one of my closest
       mentors and my manager at F-Prime.
     </p>
-
-    <figure class="notebook branching" id="branching">
-      <figcaption class="eyebrow">A plan, with room to change</figcaption>
-      <svg viewBox="0 0 560 180" role="img" aria-labelledby="path-title path-description">
-        <title id="path-title">A path through an uncertain future</title>
-        <desc id="path-description">A planned route from A through B, C, and D. A different possibility branches from B toward an unknown destination.</desc>
-        <path class="route shared-route" d="M40 60 H190"/>
-        <g class="planned-route"><path class="route" d="M190 60 H510"/><circle cx="350" cy="60" r="5"/><circle cx="510" cy="60" r="5"/><text x="350" y="38">C</text><text x="510" y="38">D</text></g>
-        <g class="alternate-route"><path class="route" d="M190 60 C270 60 250 140 350 140 H510"/><circle cx="350" cy="140" r="5"/><circle cx="510" cy="140" r="5"/><text x="350" y="119">a possibility</text><text x="510" y="119">?</text></g>
-        <circle cx="40" cy="60" r="5"/><circle cx="190" cy="60" r="5"/><text x="40" y="38">A</text><text x="190" y="38">B</text>
-      </svg>
-      <button type="button" class="quiet-button" id="branch-toggle" aria-pressed="false" hidden>Something else looks interesting ↗</button>
-      <p id="path-caption" class="note-caption" aria-live="polite">A plan can change when a new possibility appears.</p>
-    </figure>
 
     <p id="boston">
       I would consider Cambridge (and Boston) to be my third home after East Brunswick and Stanford. I took my sophomore
@@ -189,22 +162,28 @@
       text,
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.2 - 0.05,
       size: 11 + Math.random() * 7,
       opacity: 0.04 + Math.random() * 0.08,
-      fadeIn: Math.random(),
     }));
 
+    let fieldTime = 0;
     function draw(delta = 0) {
+      fieldTime += delta;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const color = isDark ? '232, 232, 232' : '0, 0, 0';
 
       particles.forEach(p => {
-        p.x += p.vx * delta * 60;
-        p.y += p.vy * delta * 60;
+        // A slowly evolving, divergence-free field derived from a stream function.
+        // Shared flow gives neighboring words related trajectories without clustering.
+        const x = p.x / 320;
+        const y = p.y / 320;
+        const phase = fieldTime * 0.035;
+        const vx = 6 * Math.sin(x + phase) * Math.cos(y - phase);
+        const vy = -6 * Math.cos(x + phase) * Math.sin(y - phase) - 2;
+        p.x += vx * delta;
+        p.y += vy * delta;
 
         if (p.x < -200) p.x = canvas.width + 100;
         if (p.x > canvas.width + 200) p.x = -100;

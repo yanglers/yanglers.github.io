@@ -261,7 +261,7 @@ html::-webkit-scrollbar {
   z-index: -1;
   pointer-events: none;
 }
-/* Small discoveries in the margins of a personal notebook. */
+/* Atlas and supplementary notes. */
 :root { --accent-color: #0067d9; }
 html[data-theme="dark"] { --accent-color: #78b4ff; }
 [hidden] { display: none !important; }
@@ -269,18 +269,17 @@ nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 4px; }
 p[id] { scroll-margin-top: 2rem; }
 p[id]:target { border-left: 2px solid var(--accent-color); padding-left: 1rem; }
-.notebook { border: 1px solid var(--secondary-color); border-radius: 3px; padding: 1.25rem; margin: 1.75rem 0; background: var(--background-color); }
+.notebook { border: 0; border-top: 1px solid var(--secondary-color); border-bottom: 1px solid var(--secondary-color); border-radius: 0; padding: 1.25rem 0; margin: 1.75rem 0; background: var(--background-color); }
 .eyebrow, h2.eyebrow { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 1rem; }
-.atlas { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 0 1rem; align-items: center; }
+.atlas { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 0 1rem; align-items: center; }
 .place-controls { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; margin-bottom: 1rem; }
 .place-controls button, .quiet-button { font: inherit; font-size: 0.75rem; color: var(--font-color); background: none; border: 0; border-bottom: 1px solid var(--secondary-color); padding: 0.3rem 0; cursor: pointer; line-height: 1.5; }
 .place-controls button[aria-pressed="true"] { color: var(--accent-color); border-color: var(--accent-color); }
 .place-controls button:hover, .quiet-button:hover { color: var(--accent-color); }
 .coordinates { font-size: 0.65rem; opacity: 0.65; margin: 0 0 0.4rem; }
 #place-title { font-size: 0.85rem; margin: 0 0 0.5rem; }
-#place-caption { font-size: 0.8rem; line-height: 1.7; margin: 0 0 0.65rem; min-height: 5.1em; }
 #place-link { font-size: 0.72rem; color: var(--accent-color); }
-.atlas-globe { position: relative; width: 190px; aspect-ratio: 1; display: grid; place-items: center; }
+.atlas-globe { position: relative; width: 240px; aspect-ratio: 1; display: grid; place-items: center; }
 .atlas #globe-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: auto; }
 .globe-fallback { font-size: 0.8rem; color: var(--accent-color); }
 .globe-ready .globe-fallback { display: none; }
@@ -292,26 +291,112 @@ p[id]:target { border-left: 2px solid var(--accent-color); padding-left: 1rem; }
 .name-columns > div + div { border-left: 1px solid var(--secondary-color); padding-left: 1.25rem; }
 .name-columns p { margin: 0 0 0.4rem; font-size: 0.8rem; }
 .name-columns p.name-characters { font-family: system-ui, sans-serif; font-size: 2rem; color: var(--accent-color); line-height: 1.6; }
-.note-caption { font-size: 0.75rem; line-height: 1.7; opacity: 0.75; margin: 1rem 0 0; }
-.branching svg { width: 100%; height: auto; overflow: visible; color: var(--accent-color); }
-.branching svg circle { fill: currentColor; }
-.branching svg text { fill: var(--font-color); font-family: var(--font-stack); text-anchor: middle; font-size: 13px; }
-.route { fill: none; stroke: currentColor; stroke-width: 1.5; }
-.alternate-route, .planned-route { transition: opacity 350ms ease; }
-.branching[data-branch="planned"] .alternate-route { opacity: 0; }
-.branching[data-branch="alternate"] .planned-route { opacity: 0.22; }
-.branching[data-branch="alternate"] .planned-route path { stroke-dasharray: 4 5; }
 .about-motion { display: block; margin: -0.5rem 0 1.5rem; }
-html[data-motion="paused"] .alternate-route, html[data-motion="paused"] .planned-route { transition: none; }
-@media (prefers-reduced-motion: reduce) { .alternate-route, .planned-route { transition: none; } }
 @media (max-width: 600px) {
   .atlas { grid-template-columns: minmax(0, 1fr); }
-  .atlas-globe { grid-row: 2; width: 180px; justify-self: center; margin-top: 0.75rem; }
-  #place-caption { min-height: 0; }
-  .notebook { padding: 1rem; }
+  .atlas-globe { grid-row: 2; width: 240px; max-width: 100%; justify-self: center; margin-top: 0.75rem; }
+  .notebook { padding: 1rem 0; }
   .name-columns { gap: 0.75rem; }
   .name-columns > div + div { padding-left: 0.75rem; }
   .name-columns p.name-characters { font-size: 1.65rem; }
 }
 
-.branching figcaption.eyebrow { color: var(--font-color); opacity: 0.7; text-align: left; }
+
+/* Serif reading text with monospace navigation and annotations. */
+main > p { font-family: var(--font-stack); font-size: 1rem; line-height: var(--global-line-height); }
+.name-note { border-bottom: 0; }
+.name-note summary { font-size: 0.78rem; }
+.name-columns p.name-characters { color: var(--font-color); }
+.atlas .motion-toggle { grid-column: 1 / -1; margin-top: 0; }
+
+/* Full-page atlas, with an unobstructed location view. */
+.home-page { position: relative; z-index: 0; }
+.home-page #globe-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 1; transition: opacity 500ms ease; }
+.home-page.location-active #globe-bg { opacity: 1; }
+#introduction > p { font-family: var(--font-stack); font-size: 1rem; line-height: var(--global-line-height); }
+.location-navigation { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: baseline; font-size: 0.8rem; margin: 1.5rem 0 0.5rem; }
+.location-navigation a { color: var(--font-color); text-underline-offset: 4px; }
+.location-navigation a[aria-current="location"] { color: var(--accent-color); }
+.location-navigation span { opacity: 0.4; }
+#location-view { min-height: calc(100svh - 330px); position: relative; padding-top: 1rem; }
+#location-view h2 { font-size: 0.85rem; margin: 0 0 0.4rem; }
+#back-introduction { display: inline-block; margin-top: 0.75rem; font-size: 0.75rem; color: var(--font-color); }
+.home-page.location-active footer { margin-top: 1rem; }
+html[data-motion="paused"] .home-page #globe-bg { transition: none; }
+@media (prefers-reduced-motion: reduce) { .home-page #globe-bg { transition: none; } }
+
+/* A drag target over the globe, beneath the page's navigation controls. */
+#globe-control { position: fixed; z-index: 1; border-radius: 50%; cursor: grab; touch-action: none; user-select: none; }
+#globe-control.dragging { cursor: grabbing; }
+#globe-control:focus-visible { outline: 1px dashed var(--accent-color); outline-offset: 5px; }
+.home-page.location-active .site-header,
+.home-page.location-active > nav,
+.home-page.location-active .location-navigation,
+.home-page.location-active footer,
+.home-page.location-active main > .motion-toggle,
+#location-view > div,
+#back-introduction, #reset-globe, .globe-help { position: relative; z-index: 2; }
+#reset-globe { margin-left: 1.5rem; }
+.globe-help { font-family: var(--font-stack); font-size: 0.65rem; opacity: 0.6; margin: 0.7rem 0 0; pointer-events: none; }
+
+#atlas-explore { position: relative; z-index: 3; max-width: 520px; margin-top: 1rem; font-size: .75rem; background: var(--background-color); }
+#atlas-explore summary { cursor: pointer; width: fit-content; }
+#atlas-explore[open] { border: 1px solid var(--secondary-color); padding: .8rem; }
+#atlas-explore p { font-family: var(--font-stack); font-size: .7rem; line-height: 1.6; margin: .65rem 0; }
+#atlas-explore label { display: inline-block; font-size: .7rem; }
+#atlas-explore input, #atlas-explore select, #atlas-explore button { font: inherit; color: var(--font-color); background: var(--background-color); border: 1px solid var(--secondary-color); padding: .25rem; }
+#atlas-explore input[type="checkbox"] { width: auto; }
+.point-inputs { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; margin-top: .6rem; }
+.point-inputs label { width: 120px; }
+.point-inputs input { width: 100%; box-sizing: border-box; }
+#flat-map { position: fixed; inset: 0; width: 100vw; z-index: -1; pointer-events: none; }
+.flat-projection #globe-bg { display: none; }
+.flat-projection #globe-control { border-radius: 0; cursor: crosshair; }
+.flat-projection .globe-help { visibility: hidden; }
+
+#coordinate-readout { min-height: 3.2em; }
+#measurement-result { min-height: 4.8em; }
+
+#language-tools { position: relative; z-index: 3; margin-top: .7rem; width: fit-content; max-width: 100%; font-size: .75rem; background: var(--background-color); }
+#language-tools summary { cursor: pointer; }
+#language-tools select, #language-tools button { font: inherit; color: var(--font-color); background: var(--background-color); border: 1px solid var(--secondary-color); padding: .25rem; margin-top: .5rem; max-width: 100%; }
+#greeting-links { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+.greeting-link { position: absolute; transform: translate(-50%,-50%); pointer-events: auto; border: 0; text-decoration: none; background: transparent; color: var(--accent-color); font: clamp(18px, 1.4vw, 22px) var(--font-stack); min-height: 36px; padding: 0 4px; white-space: nowrap; cursor: pointer; }
+#language-note { position: fixed; right: 1.5rem; top: 7rem; z-index: 5; width: 280px; max-width: calc(100vw - 3rem); max-height: calc(100svh - 9rem); overflow: auto; padding: 1.1rem; border: 1px solid var(--secondary-color); background: var(--background-color); box-shadow: 0 4px 24px #0002; }
+#language-note h2 { font-size: .85rem; margin: .75rem 0; }
+#language-note p, #language-note dl, #language-note a { font-size: .75rem; line-height: 1.7; }
+#language-note #language-word { font: 1.8rem system-ui,sans-serif; margin: .75rem 0; }
+#language-note dt { font-size: .65rem; opacity: .65; margin-top: .6rem; }
+#language-note dd { margin: .2rem 0; }
+#close-language { font: .7rem var(--font-stack); float: right; border: 0; background: none; color: var(--font-color); cursor: pointer; }
+@media(max-width:600px){ #language-note { top: auto; bottom: 1rem; right: 1rem; max-height: 65svh; width: calc(100vw - 2rem); max-width: calc(100vw - 2rem); box-sizing: border-box; } }
+
+.greeting-link:hover, .greeting-link:focus-visible, .greeting-link[aria-pressed="true"] { opacity: var(--greeting-highlight-opacity, 1) !important; text-shadow: 0 0 6px #0076ff80, 0 0 16px #0076ff60; }
+.greeting-link:focus-visible { outline: 1px solid #0076ff60; outline-offset: 3px; border-radius: 4px; }
+
+#language-map-caption p, #language-map-caption a, #language-map-status { font-size: .65rem; opacity: .75; }
+#language-map-status:empty { display: none; }
+
+#place-card { position:fixed;right:1.5rem;top:7rem;z-index:3;width:280px;box-sizing:border-box;padding:1.1rem;border:1px solid var(--secondary-color);background:var(--background-color);max-height:calc(100svh - 9rem);overflow:auto; }
+#place-card h2 {font-size:.85rem;margin:0 0 .8rem;}
+#place-card p {font: .72rem/1.7 var(--font-stack);margin:.7rem 0;}
+#place-card a {font-size:.65rem;display:block;margin-top:.5rem;}
+#place-card svg {width:100%;height:auto;color:var(--accent-color);}
+#place-card svg[hidden] {display:none;}
+#place-map-status:empty {display:none;}
+.home-page:has(#language-note:not([hidden])) #place-card {visibility:hidden;}
+@media(max-width:1150px){#place-card {position:relative;right:auto;top:auto;width:min(100%,360px);margin:calc(100svh - 330px) auto 1rem;max-height:none;} }
+
+.language-map-key {display:grid;gap:.45rem;margin:.8rem 0;font-size:.65rem;line-height:1.5;}
+.language-map-key span::before {content:'';display:inline-block;width:1.7rem;margin-right:.5rem;border-top:2px solid var(--accent-color);vertical-align:middle;}
+.language-map-key .second-key::before {border-top-style:dashed;opacity:.55;}
+.language-map-key [hidden] {display:none;}
+
+.home-page #introduction, .home-page .site-header, .home-page > nav, .home-page .location-navigation, .home-page footer, .home-page main > .motion-toggle {position:relative;z-index:2;}
+
+.region-list {list-style:none;padding:0;margin:.3rem 0;display:grid;gap:.3rem;}
+.region-list li {display:flex;align-items:baseline;gap:.45rem;margin:0;}
+.region-flag {flex:0 0 1.5em;font-family:system-ui,sans-serif;}
+
+.region-list li::before {content:none;}
+.region-flag {font-size:.95rem;line-height:1;}
