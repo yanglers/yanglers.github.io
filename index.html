@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css">
-  <link rel="stylesheet" href="css/style.css?v=56c4e0faac47">
+  <link rel="stylesheet" href="css/style.css?v=6150baded732">
   <!-- Load theme before paint to avoid flash -->
   <script src="js/theme.js?v=8012739c6037"></script>
 </head>
@@ -264,7 +264,14 @@
   <aside id="language-note" role="dialog" aria-modal="false" aria-labelledby="language-language" hidden>
     <button type="button" id="close-language" aria-label="Close language note">Close ×</button>
     <h2 id="language-language"></h2><p id="language-word"></p>
-    <dl><dt>Writing system</dt><dd id="language-script"></dd><dt>Pronunciation / reading</dt><dd id="language-reading"></dd><dt>Meaning</dt><dd id="language-meaning"></dd><dt>Regions</dt><dd id="language-region"></dd></dl>
+    <details id="script-anatomy">
+      <summary>Explore the script</summary>
+      <p id="script-direction"></p>
+      <p id="script-count"></p>
+      <div id="script-groups" role="group" aria-label="Greeting character groups"></div>
+      <p id="script-codepoints" role="status" dir="ltr"></p>
+    </details>
+    <dl><dt>Writing system</dt><dd id="language-script"></dd><dt>Regions</dt><dd id="language-region"></dd></dl>
     <div id="language-map-caption" hidden>
 
       <span id="language-map-areas" hidden></span>
@@ -283,7 +290,8 @@
   <script src="/js/language-regions.js?v=0328150e67eb"></script>
   <script src="/js/language-coverage.js?v=df0fd3d27549"></script>
   <script src="/js/region-labels.js?v=bad8afdcae81"></script>
-  <script src="/js/languages.js?v=a1f1d2f093da"></script>
+  <script src="/js/script-anatomy.js?v=9359cec63bce"></script>
+  <script src="/js/languages.js?v=9424293c9f44"></script>
   <script src="/js/atlas.js?v=d2d582e60f47"></script>
 </body>
 </html>

@@ -45,7 +45,8 @@ window.createLanguageNotes = ({words,camera,visible,enabled,highlight=()=>{},onS
     document.getElementById('language-word').textContent=note.word;
     document.getElementById('language-word').lang=note.lang;
     document.getElementById('language-word').dir='auto';
-    for(const key of ['language','script','reading','meaning','region'])document.getElementById(`language-${key}`).textContent=note[key];
+    for(const key of ['language','script','region'])document.getElementById(`language-${key}`).textContent=note[key];
+    window.renderScriptAnatomy(note);
     document.getElementById('language-source').href=note.source;
     const region=window.languageRegions[note.lang];
     document.getElementById('language-map-areas').textContent=region?.label||note.region;
@@ -60,6 +61,7 @@ window.createLanguageNotes = ({words,camera,visible,enabled,highlight=()=>{},onS
     document.getElementById('language-map-caption').hidden=!region;
     document.getElementById('language-map-source').href='/language-map-sources.html';
     panel.hidden=false;
+    panel.scrollTop=0;
     layer.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.lang===note.lang)));
     document.getElementById('close-language').focus({preventScroll:true});
   }
